@@ -29,6 +29,12 @@ post_install() {
 
 st-terminfo_package() {
 	short_desc+=" - terminfo data"
+	mutable_files="
+		usr/share/terminfo/s/st.terminfo
+		usr/share/terminfo/s/st-meta
+		usr/share/terminfo/s/st-meta-256color
+		usr/share/terminfo/s/st-256color
+		"
 	noarch=yes
 	pkg_install() {
 		vmove usr/share/terminfo
