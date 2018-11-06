@@ -1,0 +1,32 @@
+# Template file for 'python-path-and-address'
+pkgname=python-path-and-address
+version=2.0.1
+revision=1
+noarch=yes
+wrksrc="${pkgname#*-}-${version}"
+build_style=python-module
+#makedepends="python3-devel"
+hostmakedepends="python-setuptools python3-setuptools"
+depends="python"
+pycompile_module="path-and-address"
+short_desc="Python2 functions for command-line server tools used by humans."
+maintainer="Carl-Friedrich Luebeck <kafi@mac.com>"
+homepage="https://github.com/joeyespo/path-and-address"
+license="MIT"
+distfiles="https://github.com/joeyespo/path-and-address/archive/v${version}.tar.gz"
+checksum=3bc53d385e4604576718429d8017a62e0a4df2915ff2ba5fb86f3ab67a411a03
+
+post_install() {
+  vlicense LICENSE
+}
+
+python3-path-and-address_package() {
+	noarch=yes
+	depends="python3"
+	pycompile_module="path-and-address"
+	short_desc="${short_desc/Python2/Python3}"
+	pkg_install() {
+		vmove usr/lib/python3*
+		vlicense LICENSE
+	}
+}
