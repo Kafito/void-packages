@@ -82,7 +82,6 @@ run)
 		for acct in ${system_accounts}; do
 			_uname="${acct%:*}"
 			_uid="${acct#*:}"
-			[ "${_uid}" != "${_uname}" ] && use_id="-u ${_uid} -g ${_uid}"
 
 			eval homedir="\$${_uname}_homedir"
 			eval shell="\$${_uname}_shell"
@@ -93,6 +92,9 @@ run)
 			[ -z "$shell" ] && shell="/sbin/nologin"
 			[ -z "$descr" ] && descr="${_uname} unprivileged user"
 			[ -n "$groups" ] && user_groups="-G $groups"
+
+			[ "${_uid}" != "${_uname}" ] &&
+				use_id="-u ${_uid} -g ${pgroup:-${_uid}}"
 
 			if [ -z "$USERADD" -a -z "$GETENT" -a -z "$PASSWD" ]; then
 				echo "WARNING: cannot create ${acct} system user/group (missing useradd/getent/passwd)"
@@ -122,11 +124,12 @@ run)
 					echo "WARNING: cannot update ${acct} system user/group (missing usermod)"
 					continue
 				fi
-				usermod -c "${descr}" -s "${shell}" ${_uname} >/dev/null 2>&1
+				usermod -c "${descr}" -d "${homedir}" -s "${shell}" ${user_groups} \
+					-g "${pgroup:-${_uname}}" ${_uname} >/dev/null 2>&1
 				if [ $? -eq 0 ]; then
-					echo "Updated shell and comment for ${_uname} (${_uid}) system user."
+					echo "Updated ${_uname} (${_uid}) system user."
 				else
-					echo "Failed to update shell and comment for ${acct} system user!"
+					echo "Failed to update ${acct} system user!"
 					exit 1
 				fi
 			fi
@@ -142,7 +145,7 @@ run)
 					echo "WARNING: cannot disable ${acct} system user/group (missing usermod)"
 					continue
 				fi
-				usermod -L -s /bin/false -c "${comment}" ${_uname} >/dev/null 2>&1
+				usermod -L -d /var/empty -s /bin/false -c "${comment}" ${_uname} >/dev/null 2>&1
 				if [ $? -eq 0 ]; then
 					echo "Disabled ${_uname} (${_uid}) system user/group."
 				fi

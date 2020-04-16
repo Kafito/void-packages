@@ -1,8 +1,8 @@
 # Template file for 'python-smmap'
 pkgname=python-smmap
 version=2.0.5
-revision=1
-noarch=yes
+revision=2
+archs=noarch
 wrksrc="smmap-${version}"
 build_style=python-module
 pycompile_module="smmap"
@@ -25,7 +25,7 @@ post_install() {
 }
 
 python3-smmap_package() {
-	noarch=yes
+	archs=noarch
 	pycompile_module="smmap"
 	depends="python3"
 	short_desc="${short_desc/Python2/Python3}"

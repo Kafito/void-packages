@@ -1,30 +1,28 @@
 # Template file for 'bcc'
 pkgname=bcc
-version=0.7.0
+version=0.13.0
 revision=1
+wrksrc="bcc"
 build_style=cmake
 configure_args="-DREVISION=${version}"
 hostmakedepends="flex"
 makedepends="clang elfutils-devel lld-devel llvm ncurses-devel
- python-devel zlib-devel"
+ python3-devel zlib-devel"
 short_desc="BPF-based Linux IO analysis, networking, monitoring, and more"
 maintainer="Leah Neukirchen <leah@vuxu.org>"
 license="Apache-2.0"
 homepage="https://github.com/iovisor/bcc"
-distfiles="https://github.com/iovisor/${pkgname}/archive/v${version}.tar.gz"
-checksum=ac92f25861453b71943bd2ffbd5ed0b906e62a000d18ba61b178a1c13e57a32d
+distfiles="https://github.com/iovisor/bcc/releases/download/v${version}/bcc-src-with-submodule.tar.gz"
+checksum=dd393ec0b05bb6da5aa5b4a62633e0e5b632b47b8ca0c57860418a7e82e3b797
+python_version="3"
 nocross=yes # https://github.com/voidlinux/void-packages/issues/4738
-
-case "$XBPS_TARGET_MACHINE" in
-	i686*) broken="__uint128t not available" ;;
-esac
 
 post_extract() {
 	sed -i '/tests/d' CMakeLists.txt  # break on musl
 }
 bcc-tools_package() {
 	short_desc+=" - tools"
-	depends="python-bcc>=${version}_${revision} linux-headers"
+	depends="python3-bcc>=${version}_${revision} linux-headers"
 	pkg_install() {
 		vmove usr/share/bcc/man/man8
 		mv ${PKGDESTDIR}/usr/share/bcc/man ${PKGDESTDIR}/usr/share/man
@@ -54,12 +52,11 @@ bcc-devel_package() {
 		vmove usr/share/bcc/examples
 	}
 }
-python-bcc_package() {
+python3-bcc_package() {
 	lib32disabled=yes
-	depends="python"
-	short_desc+=" - Python 2.7 module"
+	depends="python3"
+	short_desc+=" - Python 3 module"
 	depends="${sourcepkg}>=${version}_${revision}"
-	pycompile_module="bcc"
 	pkg_install() {
 		vmove "usr/lib/python*"
 	}

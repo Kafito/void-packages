@@ -1,18 +1,20 @@
 # Template file for 'mbedtls'
 pkgname=mbedtls
-version=2.13.1
+reverts="2.17.0_1"
+version=2.16.6
 revision=1
 wrksrc="mbedtls-mbedtls-${version}"
 build_style=cmake
-hostmakedepends="python3 perl"
 configure_args="-DENABLE_TESTING=1 -DUSE_SHARED_MBEDTLS_LIBRARY=1"
+hostmakedepends="python3 perl"
 short_desc="Portable cryptographic TLS library"
-maintainer="Juan RP <xtraeme@voidlinux.eu>"
+maintainer="Orphaned <orphan@voidlinux.org>"
 license="Apache-2.0"
 homepage="https://tls.mbed.org/"
 changelog="https://raw.githubusercontent.com/ARMmbed/mbedtls/development/ChangeLog"
 distfiles="https://github.com/ARMmbed/mbedtls/archive/mbedtls-${version}.tar.gz"
-checksum=e62fdea0110d3aa9082b3e1ccdbbaf520161830b1f3a57ae3124a7d5963c2a37
+checksum=38ea2768669d04dab7fe7d1114e489378bf4f23e5b96271a3ed4cecd99a3f807
+
 
 pre_configure() {
 	sed -i include/mbedtls/config.h \
@@ -25,6 +27,7 @@ mbedtls-utils_package() {
 	depends="${sourcepkg}-${version}_${revision}"
 	pkg_install() {
 		vmove usr/bin
+		rm "${PKGDESTDIR}"/usr/bin/query_compile_time_config
 	}
 }
 
@@ -37,4 +40,3 @@ mbedtls-devel_package() {
 		vmove "usr/lib/*.so"
 	}
 }
-

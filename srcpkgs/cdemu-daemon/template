@@ -1,14 +1,14 @@
 # Template file for 'cdemu-daemon'
 pkgname=cdemu-daemon
-version=3.2.1
+version=3.2.4
 revision=1
 build_style=cmake
 hostmakedepends="pkg-config intltool"
 makedepends="libmirage-devel glib-devel libao-devel"
 depends="vhba-module-dkms"
-short_desc="The userspace daemon part of the cdemu suite"
+short_desc="Userspace daemon part of the cdemu suite"
 maintainer="Helmut Pozimski <helmut@pozimski.eu>"
 license="GPL-2.0-or-later"
 homepage="http://cdemu.sourceforge.net"
 distfiles="${SOURCEFORGE_SITE}/cdemu/cdemu-daemon-${version}.tar.bz2"
-checksum=842d889094be45fb913ee6649cba8f12e6190e83497764536bc63d1c3fc3389c
+checksum=a6b32d4b78631e5f449f05f8d26b7f2f46dd3e82387f5855ccabb4933592de0b

@@ -1,25 +1,23 @@
 # Template file for 'steam'
 pkgname=steam
-version=1.0.0.55
+version=1.0.0.62
 revision=1
-wrksrc=steam
-only_for_archs="i686 x86_64"
-depends="zenity xterm xz curl dbus freetype gdk-pixbuf hicolor-icon-theme desktop-file-utils liberation-fonts-ttf"
-repository="nonfree"
+archs="i686 x86_64"
+wrksrc=steam-launcher
+depends="zenity xz curl dbus freetype gdk-pixbuf hicolor-icon-theme desktop-file-utils
+ liberation-fonts-ttf file tar bash coreutils"
 short_desc="Digital distribution client bootstrap package - Valve's steam client"
-maintainer="Juan RP <xtraeme@voidlinux.eu>"
-license="Proprietary license"
+maintainer="Orphaned <orphan@voidlinux.org>"
+license="custom: Proprietary license"
 homepage="https://steampowered.com/"
 distfiles="http://repo.steampowered.com/${pkgname}/pool/${pkgname}/s/${pkgname}/${pkgname}_${version}.tar.gz"
-checksum=c303a610ebd7e392f5027b22ee0b64bf178344bd979bef473046c57c3599a1af
+checksum=83cbff7379b3ef8115e651fb1b627be5f9b38d0e8b405e8bcd91871df5f588df
+repository=nonfree
 
 do_install() {
 	make DESTDIR=${DESTDIR} install
 
-	# Link license
-	vmkdir usr/share/licenses/steam
-	ln -sfr ${DESTDIR}/usr/share/doc/steam/steam_install_agreement.txt \
-		${DESTDIR}/usr/share/licenses/steam/LICENSE
+	vlicense steam_subscriber_agreement.txt LICENSE
 
 	# Ignore steamdeps.
 	ln -sf /bin/true ${DESTDIR}/usr/bin/steamdeps
@@ -28,4 +26,8 @@ do_install() {
 	# Valve-owned input event device nodes.
 	# See https://bugs.launchpad.net/ubuntu/+source/steam/+bug/1498655
 	vinstall ${FILESDIR}/99-steam-controller-perms.rules 644 usr/lib/udev/rules.d
+
+	# Device support for Steam-related hardware (e.g. controllers over Steam Link)
+	vinstall ${FILESDIR}/60-steam-input.rules 644 usr/lib/udev/rules.d
+	vinstall ${FILESDIR}/60-steam-vr.rules 644 usr/lib/udev/rules.d
 }

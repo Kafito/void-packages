@@ -1,28 +1,20 @@
 # Template file for 'mtxclient'
 pkgname=mtxclient
-version=0.2.0
+version=0.2.1
 revision=2
 build_style=cmake
-configure_args="-DBUILD_LIB_TESTS=OFF -DBUILD_LIB_EXAMPLES=OFF
- -DBUILD_SHARED_LIBS=ON"
+configure_args="-DBUILD_LIB_TESTS=OFF -DBUILD_LIB_EXAMPLES=OFF -DBUILD_SHARED_LIBS=ON"
 hostmakedepends="pkg-config"
-makedepends="boost-devel zlib-devel libsodium-devel libressl-devel olm-devel
- json-c++"
+makedepends="boost-devel json-c++ zlib-devel olm-devel libressl-devel libsodium-devel"
 short_desc="Client API library for the Matrix protocol"
-maintainer="maxice8 <thinkabit.ukim@gmail.com>"
-license="GPL-3.0-or-later"
-homepage="https://github.com/mujx/mtxclient"
-distfiles="https://github.com/mujx/mtxclient/archive/v${version}.tar.gz"
-checksum=e7638d4a8233c0c763d48111fd13e8ad1dcd5f34e3e641b46eaf1bb920b73482
+maintainer="Lorem <notloremipsum@protonmail.com>"
+license="MIT"
+homepage="https://github.com/Nheko-Reborn/mtxclient"
+distfiles="https://github.com/Nheko-Reborn/mtxclient/archive/v${version}.tar.gz"
+checksum=859217f3ed8fbe5479a6cf77dc15f164c76e593f588990c2acce3fe13c9f845a
 
-pre_configure() {
-	sed -i '/-Werror/d' CMakeLists.txt
-}
-
-pre_build() {
-	# Fix up includes to nlohmann json
-	grep -rl '#include <json.hpp>' | xargs sed -i 's|#include <json.hpp>|#include <nlohmann/json.hpp>|'
-	grep -rl '#include "json.hpp"' | xargs sed -i 's|#include "json.hpp"|#include <nlohmann/json.hpp>|'
+post_install() {
+	vlicense LICENSE
 }
 
 mtxclient-devel_package() {
@@ -32,5 +24,5 @@ mtxclient-devel_package() {
 		vmove usr/include
 		vmove usr/lib/cmake
 		vmove "usr/lib/*.so"
-	}
+ 	}
 }

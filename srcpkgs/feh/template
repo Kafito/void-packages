@@ -1,21 +1,21 @@
 # Template file for 'feh'
 pkgname=feh
-version=2.28.1
+version=3.4
 revision=1
 build_style=gnu-makefile
 make_use_env=yes
-make_build_args="PREFIX=/usr exif=1 help=1 stat64=1"
+make_build_args="PREFIX=/usr exif=1 help=1 stat64=1 inotify=1"
 hostmakedepends="pkg-config"
 makedepends="giblib-devel libXinerama-devel libXt-devel libcurl-devel
  libexif-devel libjpeg-turbo-devel"
 depends="libjpeg-turbo-tools"
 short_desc="Fast and light imlib2-based image viewer"
-maintainer="Juan RP <xtraeme@voidlinux.eu>"
+maintainer="Frank Steinborn <steinex@nognu.de>"
 license="MIT-feh"
 homepage="https://feh.finalrewind.org/"
 changelog="https://raw.githubusercontent.com/derf/feh/master/ChangeLog"
 distfiles="${homepage}/feh-${version}.tar.bz2"
-checksum=97066765c61d7413ed40b20f3f62b5d934e94ec91cadd491ebce836e1fb02a72
+checksum=18545ca5c7537268810bec564db9cd3ad1ca98c2a2f23ec243d3bac56cfc0365
 
 pre_build() {
 	sed -i 's|doc/feh/examples|examples/feh|' config.mk

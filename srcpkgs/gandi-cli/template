@@ -1,8 +1,8 @@
 # Template file for 'gandi-cli'
 pkgname=gandi-cli
-version=1.3
+version=1.5
 revision=2
-noarch=yes
+archs=noarch
 wrksrc="gandi.cli-${version}"
 build_style=python3-module
 pycompile_module="gandi/cli"
@@ -14,7 +14,7 @@ maintainer="Lon Willett <xgit@lonw.net>"
 license="GPL-3.0-or-later"
 homepage="http://cli.gandi.net"
 distfiles="https://github.com/Gandi/gandi.cli/archive/${version}.tar.gz"
-checksum=e6a28a26cfa16ad4d369958146152b293b4a0e68df6e9cfbfc2d07f84fbaa5e7
+checksum=91349aaac0399add4dec5025cd75ae34f42e0d78bd533da4619a075869c93fb0
 
 do_check() {
 	python3 -m pytest

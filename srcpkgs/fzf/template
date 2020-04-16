@@ -1,9 +1,9 @@
 # Template file for 'fzf'
 pkgname=fzf
-version=0.17.5
+version=0.21.1
 revision=1
 build_style=go
-go_import_path="github.com/junegunn/fzf"
+go_import_path=github.com/junegunn/fzf
 hostmakedepends="git"
 makedepends="ncurses-devel"
 short_desc="Command-line fuzzy finder"
@@ -12,7 +12,7 @@ license="MIT"
 homepage="https://github.com/junegunn/fzf"
 changelog="https://raw.githubusercontent.com/junegunn/fzf/master/CHANGELOG.md"
 distfiles="https://github.com/junegunn/fzf/archive/${version}.tar.gz"
-checksum=de3b39758e01b19bbc04ee0d5107e14052d3a32ce8f40d4a63d0ed311394f7ee
+checksum=47adf138f17c45d390af81958bdff6f92157d41e2c4cb13773df078b905cdaf4
 
 post_install() {
 	cd ${wrksrc}

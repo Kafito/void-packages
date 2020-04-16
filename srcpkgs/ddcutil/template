@@ -1,6 +1,6 @@
 # Template file for 'ddcutil'
 pkgname=ddcutil
-version=0.9.2
+version=0.9.8
 revision=1
 build_style=gnu-configure
 hostmakedepends="automake libtool pkg-config"
@@ -11,10 +11,10 @@ maintainer="lemmi <lemmi@nerd2nerd.org>"
 license="GPL-2.0-or-later"
 homepage="http://www.ddcutil.com"
 distfiles="https://github.com/rockowitz/ddcutil/archive/v${version}.tar.gz"
-checksum=88a94a9bf21ccb821681b0aa41e20fefdf9dafdebe6155aea73e36fbcb319db3
+checksum=445478a226d3fc46c6c058e503bba416948dad1152736b3c91326e60bbfc9025
 
 case "$XBPS_TARGET_MACHINE" in
-	*-musl) makedepends+=" libexecinfo-devel"
+	*-musl) makedepends+=" libexecinfo-devel musl-legacy-compat"
 		LDFLAGS="-lexecinfo"
 		post_extract() {
 			sed -i -e "/AM_CFLAGS += -Wpedantic/d" src/app_sysenv/Makefile.am

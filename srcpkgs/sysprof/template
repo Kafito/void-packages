@@ -1,32 +1,29 @@
 # Template file for 'sysprof'
 pkgname=sysprof
-version=3.30.2
+version=3.36.0
 revision=1
 build_style=meson
-configure_args="-Denable_gtk=true -Dsystemdunitdir=/DELETEME"
-hostmakedepends="pkg-config itstool glib-devel"
-makedepends="gtk+3-devel polkit-devel glib-devel elogind-devel"
-short_desc="A system-wide profiler for Linux"
-maintainer="Rasmus Thomsen <rasmus.thomsen@protonmail.com>"
+configure_args="-Denable_gtk=true -Dsystemdunitdir=deleteme"
+hostmakedepends="gettext pkg-config itstool glib-devel"
+makedepends="gtk+3-devel libdazzle-devel polkit-devel glib-devel elogind-devel"
+short_desc="System-wide profiler for Linux"
+maintainer="Enno Boland <gottox@voidlinux.org>"
 license="GPL-2.0-or-later, GPL-3.0-or-later"
 homepage="http://sysprof.com/"
 distfiles="${GNOME_SITE}/${pkgname}/${version%.*}/${pkgname}-${version}.tar.xz"
-checksum=e90878e5a509bd79d170a7a51d47cc5508ab1363afaf0d97654373dfd9c8ba0b
+checksum=8670db4dacf7b219d30c575c465b17c8ed6724dbade347f2cde9548bff039108
 
-case "$XBPS_TARGET_MACHINE" in
-	aarch64-musl|x86_64-musl) broken="__WORDSIZE definitions aren't recognized" ;;
-	x64_64-musl|aarch64-musl) CFLAGS="-D__WORDSIZE=64" ;;
-	*-musl) CFLAGS="-D__WORDSIZE=32" ;;
-esac
-
-CFLAGS=" -Wno-error -Wno-error=undef"
+# for ITS rules
+if [ "$CROSS_BUILD" ]; then
+	hostmakedepends+=" polkit-devel"
+fi
 
 pre_build() {
 	export SHELL=/bin/bash
 }
 
 post_install() {
-	rm -r $DESTDIR/DELETEME
+	rm -rf ${DESTDIR}/usr/deleteme
 }
 
 sysprof-devel_package() {

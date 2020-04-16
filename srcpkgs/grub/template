@@ -1,20 +1,20 @@
 # Template file for 'grub'
 pkgname=grub
-version=2.02
-revision=4
-hostmakedepends="flex freetype-devel"
+version=2.04
+revision=3
+hostmakedepends="python3 pkg-config flex freetype-devel font-unifont-bdf"
 makedepends="libusb-compat-devel ncurses-devel freetype-devel
- liblzma-devel device-mapper-devel font-unifont-bdf fuse-devel"
+ liblzma-devel device-mapper-devel fuse-devel"
 depends="os-prober"
 conf_files="/etc/default/grub /etc/grub.d/*"
 short_desc="GRand Unified Bootloader 2"
-maintainer="Juan RP <xtraeme@voidlinux.eu>"
-license="GPL-3"
+maintainer="Orphaned <orphan@voidlinux.org>"
+license="GPL-3.0-or-later"
 homepage="https://www.gnu.org/software/grub/"
 distfiles="${GNU_SITE}/grub/grub-${version}.tar.xz"
-checksum=810b3798d316394f94096ec2797909dbf23c858e48f7b3830826b8daa06b7b0f
+checksum=e5292496995ad42dabe843a0192cf2a2c502e7ffcc7479398232b10a472df77d
 
-only_for_archs="i686 i686-musl x86_64 x86_64-musl aarch64 aarch64-musl"
+archs="i686* x86_64* aarch64* ppc ppc-musl ppc64*"
 nopie=yes
 
 subpackages="grub-utils"
@@ -22,19 +22,23 @@ subpackages="grub-utils"
 case "$XBPS_TARGET_MACHINE" in
 	x86_64*)
 		_NATIVE_PLATFORM=pc
-		_SUPPLEMENTARY_BUILDS="i386-efi x86_64-efi"
-		subpackages+=" grub-i386-efi grub-x86_64-efi"
+		_SUPPLEMENTARY_BUILDS="i386-efi x86_64-efi i386-coreboot x86_64-xen"
+		subpackages+=" grub-i386-efi grub-x86_64-efi grub-i386-coreboot grub-xen"
 		;;
 	i686*)
 		CFLAGS="-D_FILE_OFFSET_BITS=64"
 		configure_args+=" ac_cv_sizeof_off_t=8"
 		_NATIVE_PLATFORM=pc
-		_SUPPLEMENTARY_BUILDS="i386-efi"
-		subpackages+=" grub-i386-efi"
+		_SUPPLEMENTARY_BUILDS="i386-efi i386-coreboot i386-xen"
+		subpackages+=" grub-i386-efi grub-i386-coreboot grub-xen"
 		;;
 	aarch64*)
 		_NATIVE_PLATFORM=efi
 		subpackages+=" grub-arm64-efi"
+		;;
+	ppc*)
+		_NATIVE_PLATFORM=ieee1275
+		subpackages+=" grub-powerpc-ieee1275"
 		;;
 esac
 
@@ -45,6 +49,11 @@ post_extract() {
 do_configure() {
 	unset CC AS LD RANLIB CPP
 	CFLAGS="$CFLAGS -fno-stack-protector"
+
+	# building with altivec generates broken grub core
+	case "$XBPS_TARGET_MACHINE" in
+		ppc64*) CFLAGS="$CFLAGS -mno-altivec" ;;
+	esac
 
 	configure_args+=" --enable-device-mapper --enable-cache-stats --enable-nls
 		--enable-grub-mkfont --enable-grub-mount --disable-werror
@@ -153,7 +162,7 @@ grub-utils_package() {
 	}
 }
 grub-x86_64-efi_package() {
-	noarch=yes
+	archs=noarch
 	depends="grub>=$version dosfstools efibootmgr"
 	short_desc+=" - x86_64 EFI support"
 	pkg_install() {
@@ -161,18 +170,48 @@ grub-x86_64-efi_package() {
 	}
 }
 grub-i386-efi_package() {
-	noarch=yes
+	archs=noarch
 	depends="grub>=$version dosfstools efibootmgr"
 	short_desc+=" - i386 EFI support"
 	pkg_install() {
 		vmove usr/lib/grub/i386-efi
 	}
 }
+grub-i386-coreboot_package() {
+	archs=noarch
+	depends="grub>=$version"
+	short_desc+=" - i386 coreboot support"
+	pkg_install() {
+		vmove usr/lib/grub/i386-coreboot
+	}
+}
+grub-xen_package() {
+	depends="grub>=$version"
+	short_desc+=" - Xen PV support"
+	pkg_install() {
+		case "$XBPS_TARGET_MACHINE" in
+			x86_64*)
+				vmove usr/lib/grub/x86_64-xen
+				;;
+			i686*)
+				vmove usr/lib/grub/i386-xen
+				;;
+		esac
+	}
+}
 grub-arm64-efi_package() {
-	noarch=yes
+	archs=noarch
 	depends="grub>=$version dosfstools efibootmgr"
 	short_desc+=" - arm64 EFI support"
 	pkg_install() {
 		vmove usr/lib/grub/arm64-efi
+	}
+}
+grub-powerpc-ieee1275_package() {
+	archs=noarch
+	depends="grub>=$version powerpc-utils"
+	short_desc+=" - powerpc Open Firmware support"
+	pkg_install() {
+		vmove usr/lib/grub/powerpc-ieee1275
 	}
 }

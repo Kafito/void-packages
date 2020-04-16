@@ -1,26 +1,21 @@
 # Template file for 'NetAuth'
 pkgname=NetAuth
-version=0.0.11
+version=0.3.2
 revision=1
-build_style=go
-hostmakedepends="dep"
-go_import_path="github.com/NetAuth/NetAuth"
+wrksrc=netauth-$version
+build_style="go"
+go_import_path="github.com/netauth/netauth"
 go_package="${go_import_path}/cmd/netauth
  ${go_import_path}/cmd/netauthd"
+hostmakedepends="git"
 short_desc="Network authentication and identity system"
-maintainer="Michael Aldridge <maldridge@VoidLinux.eu>"
+maintainer="Michael Aldridge <maldridge@voidlinux.org>"
 license="MIT"
 homepage="https://netauth.org"
 distfiles="https://github.com/NetAuth/NetAuth/archive/v$version.tar.gz"
-checksum=12df647cda552d147fefb19b8c27672577b39ca8c41c2702bc7f80354215c9f0
-
-pre_build() {
-	cd $GOSRCPATH
-	dep ensure
-}
+checksum=ad5251f2fa36a0a4175d5483bb5aa6de62efd7a0b048da9e2f4d1a5ff5fb86bb
 
 do_check() {
-	cd $GOSRCPATH
 	go test -v ./...
 }
 

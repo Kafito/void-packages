@@ -1,0 +1,89 @@
+# Template file for 'amdvlk'
+pkgname=amdvlk
+version=2020.Q1.4
+revision=1
+_llpc_commit=7686a2ddba683f7a361460f3806b0d45e615ca76
+_xgl_commit=2db4177e78133c868e2c6b4dcc46aeb2f512163a
+_pal_commit=bb7398b1c7509a30ba4f7d947b5ad5549a4d58db
+_llvm_project_commit=5c958c70bc6366298296dc778e903f65528c3b0f
+_spvgen_commit=d16fddddf22a1eb3a3f4ce05cbcb95a337f708b1
+_MetroHash_commit=2b6fee002db6cc92345b02aeee963ebaaf4c0e2f
+_CWPack_commit=b601c88aeca7a7b08becb3d32709de383c8ee428
+archs="i686* x86_64*"
+create_wrksrc=yes
+build_wrksrc="xgl"
+build_style=cmake
+configure_args="-DBUILD_WAYLAND_SUPPORT=ON
+ -DXGL_METROHASH_PATH=../../metrohash
+ -DXGL_CWPACK_PATH=../../cwpack"
+hostmakedepends="pkg-config python3 perl"
+makedepends="libxml2-devel xorg-server-devel libXrandr-devel libffi-devel"
+depends="vulkan-loader"
+short_desc="AMD Open Source Driver For Vulkan"
+maintainer="John <johnz@posteo.net>"
+license="MIT"
+homepage="https://github.com/GPUOpen-Drivers/AMDVLK"
+distfiles="https://github.com/GPUOpen-Drivers/AMDVLK/archive/v-${version}.tar.gz
+ https://github.com/GPUOpen-Drivers/llpc/archive/${_llpc_commit}.tar.gz
+ https://github.com/GPUOpen-Drivers/xgl/archive/${_xgl_commit}.tar.gz
+ https://github.com/GPUOpen-Drivers/pal/archive/${_pal_commit}.tar.gz
+ https://github.com/GPUOpen-Drivers/llvm-project/archive/${_llvm_project_commit}.tar.gz
+ https://github.com/GPUOpen-Drivers/spvgen/archive/${_spvgen_commit}.tar.gz
+ https://github.com/GPUOpen-Drivers/MetroHash/archive/${_MetroHash_commit}.tar.gz
+ https://github.com/GPUOpen-Drivers/CWPack/archive/${_CWPack_commit}.tar.gz"
+checksum="c7c8f21cb6006302146ea16f738550ea870d6554a68183adab071d9b299fb0ea
+ 5ee4d5cf5b6eb47d5e7faf8efa64281a6d3da2fadc6501d2f49fbcab75cbc2a7
+ 312e8221e3c87fa378f757932f638aa330a9655a245d76d91ca76d58c1fe4c55
+ b738532b294838ce027703a23d1db3f0acf6098b3b614edee7726ff72f3e0899
+ 7894d545009bf1011a0d0f3e0446b4fe18c3505f7d91a79a01b2a1c0ae02c899
+ cea41a19a907b8c42209f5012b86d90382dcd58475d54b66b5e8e5d607e5a468
+ e8ecf026584dd953e39c3abba2eb04d28b28ed4577482ee70265f0d421fef398
+ 58ca397f33d62bcfecaecd89eb4ad466a6c33e1c619e5cf742822074f1f7d664"
+nocross=yes
+lib32files="/usr/share/vulkan/icd.d/amd_icd32.json"
+
+post_extract() {
+	mv ${wrksrc}/AMDVLK-v-${version} ${wrksrc}/AMDVLK
+	mv ${wrksrc}/xgl-${_xgl_commit} ${wrksrc}/xgl
+	mv ${wrksrc}/pal-${_pal_commit} ${wrksrc}/pal
+	mv ${wrksrc}/llpc-${_llpc_commit} ${wrksrc}/llpc
+	mv ${wrksrc}/llvm-project-${_llvm_project_commit} ${wrksrc}/llvm-project
+	mv ${wrksrc}/spvgen-${_spvgen_commit} ${wrksrc}/spvgen
+	mv ${wrksrc}/MetroHash-${_MetroHash_commit} ${wrksrc}/metrohash
+	mv ${wrksrc}/CWPack-${_CWPack_commit} ${wrksrc}/cwpack
+}
+
+pre_configure() {
+	case "$XBPS_TARGET_MACHINE" in
+		i686*) _arch="X86";;
+		x86_64*) _arch="X86";;
+	esac
+	configure_args+=" -DLLVM_TARGET_ARCH=${_arch}"
+	configure_args+=" -DLLVM_DEFAULT_TARGET_TRIPLE=${XBPS_CROSS_TRIPLET:-$XBPS_TRIPLET}"
+}
+
+pre_build() {
+	# lower burden on build servers, llvm eats too much memory
+	if [ "$XBPS_MAKEJOBS" -gt 2 ]; then
+		echo $XBPS_MAKEJOBS
+		export makejobs="-j$(( $XBPS_MAKEJOBS / 2 ))"
+		echo $XBPS_MAKEJOBS
+	fi
+
+}
+
+do_install() {
+	case $XBPS_TARGET_MACHINE in
+		i686*|mips*|arm*|ppc|ppc-musl)
+			vinstall build/icd/amdvlk32.so 644 usr/lib/
+			vinstall ${wrksrc}/AMDVLK/json/Redhat/amd_icd32.json 644 usr/share/vulkan/icd.d/
+			vsed -i ${DESTDIR}/usr/share/vulkan/icd.d/amd_icd32.json -e 's#/usr/lib/#/usr/lib32/#g'
+			;;
+		*)
+			vinstall build/icd/amdvlk64.so 644 usr/lib/
+			vinstall ${wrksrc}/AMDVLK/json/Redhat/amd_icd64.json 644 usr/share/vulkan/icd.d/
+			vsed -i ${DESTDIR}/usr/share/vulkan/icd.d/amd_icd64.json -e 's#/usr/lib64/#/usr/lib/#g'
+			;;
+	esac
+	vlicense ${wrksrc}/AMDVLK/LICENSE.txt
+}

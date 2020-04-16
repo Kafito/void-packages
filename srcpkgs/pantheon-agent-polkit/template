@@ -1,13 +1,13 @@
 # Template file for 'pantheon-agent-polkit'
 pkgname=pantheon-agent-polkit
-version=0.1.5
+version=1.0.0
 revision=1
 build_style=meson
 hostmakedepends="intltool pkg-config vala gobject-introspection"
-makedepends="gtk+3-devel polkit-devel"
-maintainer="Cameron Nemo <camerontnorman@gmail.com>"
+makedepends="gtk+3-devel polkit-devel granite-devel"
 short_desc="Pantheon Polkit Agent"
-homepage="https://github.com/elementary/${pkgname}"
+maintainer="Orphaned <orphan@voidlinux.org>"
 license="LGPL-3.0-or-later"
+homepage="https://github.com/elementary/${pkgname}"
 distfiles="${homepage}/archive/${version}.tar.gz"
-checksum=29838049537a78677d7900337250ebefa675b5b039c22780bb3ed43bee2d96ef
+checksum=8e730f335545a4ca2717e1c9ccad61c329c1f19ea51f76ae4783da9e0416d484

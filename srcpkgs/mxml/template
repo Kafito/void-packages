@@ -1,8 +1,7 @@
 # Template file for 'mxml'
 pkgname=mxml
-version=2.12
+version=3.1
 revision=1
-create_wrksrc=yes
 build_style=gnu-configure
 make_build_args="libmxml.a all"
 configure_args="--enable-static --enable-shared"
@@ -11,7 +10,7 @@ maintainer="Jürgen Buchmüller <pullmoll@t-online.de>"
 license="LGPL-2.0-only"
 homepage="http://www.minixml.org/"
 distfiles="https://github.com/michaelrsweet/mxml/releases/download/v${version}/mxml-${version}.tar.gz"
-checksum=afd6b75a120dc422c7b45dca19254f535d51c37b73f6783962b1e14b54c716fd
+checksum=1ac8d252f62f9dc2b2004518c70d2da313bdfcd92b8350e215f46064a34b52fc
 
 do_install() {
 	make DSTROOT="${DESTDIR}" install

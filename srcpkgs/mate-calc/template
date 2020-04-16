@@ -1,6 +1,6 @@
 # Template file for 'mate-calc'
 pkgname=mate-calc
-version=1.20.2
+version=1.24.0
 revision=1
 build_style=gnu-configure
 hostmakedepends="glib-devel intltool itstool pkg-config"
@@ -10,4 +10,4 @@ maintainer="Álvaro Castillo <midgoon@gmail.com>"
 license="GPL-2.0-or-later"
 homepage="https://mate-desktop.org/"
 distfiles="https://pub.mate-desktop.org/releases/${version%.*}/${pkgname}-${version}.tar.xz"
-checksum=a0536986f9c1adf04a1e59110c29277caedb06e27ac7876096f9399ae4001fbe
+checksum=c188f3f6766c74317fc448c75c3dc6e066ea713a0f63bd3de36c06f25e60f038

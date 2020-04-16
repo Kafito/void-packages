@@ -1,46 +1,43 @@
 # Template file for 'libdwarf'
 pkgname=libdwarf
-version=20180809
+version=20200114
 revision=1
 build_style=gnu-configure
-configure_args="--prefix=/usr --enable-shared"
+configure_args="--enable-shared --enable-dwarfgen"
 makedepends="elfutils-devel"
 short_desc="DWARF Debugging Information Format Library"
 maintainer="John Regan <john@jrjrtech.com>"
 license="LGPL-2.1-only"
 homepage="https://www.prevanders.net/dwarf.html"
 distfiles="https://prevanders.net/${pkgname}-${version}.tar.gz"
-checksum=63e5947fbd8f342240d25bed2081251f8ec5428ee09e24dfad3b6956168bc400
+checksum=cffd8d600ca3181a5194324c38d50f94deb197249b2dea92d18969a7eadd2c34
 
 if [ "$CROSS_BUILD" ]; then
-	hostmakedepends+=" elfutils-devel"
-	make_cmd="make HOSTCC=cc HOSTCFLAGS=-I./ HOSTLDFLAGS="
-
-	pre_build() {
-		# Makefile doesn’t use $HOSTLDFLAGS when using $HOSTCC
-		sed -i -e 's|\$(HOSTCC) \$(HOSTCFLAGS) \$(LDFLAGS)|\$(HOSTCC) \$(HOSTCFLAGS) \$(HOSTLDFLAGS)|' Makefile
-	}
+	hostmakedepends="elfutils-devel"
 fi
 
 post_install() {
 	rm -rf ${PKGDESTDIR}/usr/share/libdwarf/libdwarf-devel
+	mkdir ${DESTDIR}/usr/include/libdwarf
+	mv ${DESTDIR}/usr/include/*.h ${DESTDIR}/usr/include/libdwarf
 }
 
 libdwarf-devel_package() {
 	short_desc+=" - development files"
 	depends="${sourcepkg}>=${version}_${revision}"
 	pkg_install() {
-		vmove usr/include
+		vmove "usr/include/libdwarf"
 		vmove "usr/lib/*.so"
 		vmove "usr/lib/*.a"
 	}
 }
 
 libdwarf-doc_package() {
-	noarch=yes
+	archs=noarch
 	short_desc+=" - documentation"
 	pkg_install() {
-		install -dm755 $PKGDESTDIR/usr/share/doc/${pkgname}
-		install -m644 README NEWS libdwarf/*.pdf $PKGDESTDIR/usr/share/doc/${pkgname}
+		for i in README NEWS libdwarf/*.pdf ; do
+			vdoc $i
+		done
 	}
 }

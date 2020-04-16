@@ -1,34 +1,39 @@
 # Template file for 'txr'
 pkgname=txr
-version=200
+version=235
 revision=1
+archs="x86_64* i686* aarch64* arm* ppc64*"
 build_style=configure
+configure_args="--prefix=/usr"
 make_check_target=tests
 hostmakedepends="bison flex"
+makedepends="libffi-devel"
 short_desc="Programming language for convenient data munging"
 maintainer="Oliver Kiddle <okiddle@yahoo.co.uk>"
 license="BSD-2-Clause"
 homepage="http://www.nongnu.org/txr/"
+changelog="http://www.kylheku.com/cgit/txr/tree/RELNOTES?id=${pkgname}-${version}"
 distfiles="http://www.kylheku.com/cgit/txr/snapshot/${pkgname}-${version}.tar.bz2"
-checksum=eeea8cf6be0fe0f30b2a7f7416a8011c806fb4d9b97dba9d7c7d7ca5bfdf7c9d
+checksum=1fdb2d56e8223779e52c64846787dd7a6c4e280278ca098c1b19133c357da87f
+nopie=yes
 
 if [ "$CROSS_BUILD" ]; then
 	hostmakedepends+=" txr"
 fi
 
-do_configure() {
-	./configure --prefix=/usr --ccname="${CC}" \
-		--platform-cflags="${CFLAGS}" \
-		--platform-ldflags="${LDFLAGS}"
+pre_configure() {
 	if [ "$CROSS_BUILD" ]; then
-		sed -i 's#^TXR :=.*#TXR = /usr/bin/txr#' Makefile
+		vsed -i Makefile -e 's#^TXR :=.*#TXR = /usr/bin/txr#'
 	fi
 }
 
-pre_check() {
-	rm -rf tests/017
+post_configure() {
+	vsed -i config.make -e "\#^PLATFORM_CFLAGS#s#:=.*\$#:= ${CFLAGS}#"
+	vsed -i config.make -e "\#^PLATFORM_LDFLAGS#s#:=.*\$#:= ${LDFLAGS}#"
 }
 
 post_install() {
 	vlicense LICENSE
+	vmkdir usr/share/vim/vimfiles/syntax
+	vcopy *.vim usr/share/vim/vimfiles/syntax/
 }

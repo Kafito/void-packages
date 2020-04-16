@@ -1,8 +1,8 @@
 # Template file for 'python3-pykwalify'
 pkgname=python3-pykwalify
 version=1.7.0
-revision=1
-noarch=yes
+revision=2
+archs=noarch
 wrksrc="pykwalify-${version}"
 build_style=python3-module
 pycompile_module="pykwalify"

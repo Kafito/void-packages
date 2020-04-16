@@ -1,23 +1,26 @@
 # Template file for 'openra'
 pkgname=openra
-version=20180923
+version=20200202
 revision=1
+archs=noarch
 wrksrc="OpenRA-release-${version}"
-noarch=yes
-hostmakedepends="mono unzip curl"
-makedepends="SDL2-devel lua51-devel freetype-devel libopenal-devel libgdiplus-devel"
-depends="mono libopenal freetype xdg-utils zenity SDL2 lua51 libgdiplus"
 build_style="gnu-makefile"
 make_install_target="install install-linux-shortcuts install-linux-mime
  install-linux-appdata install-man-page"
 make_install_args="prefix=/usr"
-homepage="http://www.openra.net"
-short_desc="An open-source implementation of the Red Alert engine"
+hostmakedepends="mono unzip curl msbuild-bin"
+makedepends="SDL2-devel lua51-devel freetype-devel libopenal-devel libgdiplus-devel"
+depends="mono libopenal freetype xdg-utils zenity SDL2 lua51 libgdiplus"
+short_desc="Open-source implementation of the Red Alert engine"
 maintainer="Helmut Pozimski <helmut@pozimski.eu>"
 license="GPL-3.0-or-later"
+homepage="http://www.openra.net"
 distfiles="https://github.com/OpenRA/OpenRA/archive/release-${version}.tar.gz"
-checksum=85943a229a8f927727614055a58200f4a0d4df4ae7a71d7b2443de22abb2d688
+checksum=2e7b6131d76875ff8ed0e288b06cbe617e5e4cdb4c4fd98812dc17a541a5284f
 
+if [ "$XBPS_ENDIAN" = "be" ]; then
+	broken="Fails to build"
+fi
 
 if [ "$CROSS_BUILD" ]; then
 	hostmakedepends+=" lua51 libgdiplus"

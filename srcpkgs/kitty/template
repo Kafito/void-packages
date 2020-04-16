@@ -1,12 +1,11 @@
 # Template file for 'kitty'
 pkgname=kitty
-version=0.12.3
+version=0.17.2
 revision=1
-pycompile_version="$py3_ver"
 pycompile_dirs="usr/lib/kitty"
 hostmakedepends="ncurses pkg-config python3 wayland-devel wayland-protocols"
 makedepends="gettext-devel glfw-devel harfbuzz-devel libxkbcommon-devel
- python3-devel wayland-devel wayland-protocols"
+ python3-devel wayland-devel wayland-protocols libcanberra-devel"
 depends="kitty-terminfo-${version}_${revision}"
 short_desc="Modern, hackable, featureful, OpenGL based terminal emulator"
 maintainer="Benjamin Slade <slade@jnanam.net>"
@@ -14,27 +13,35 @@ license="GPL-3.0-or-later"
 homepage="https://sw.kovidgoyal.net/kitty/"
 changelog="https://sw.kovidgoyal.net/kitty/changelog.html"
 distfiles="https://github.com/kovidgoyal/kitty/releases/download/v${version}/kitty-${version}.tar.xz"
-checksum=60d8cc0bb9b3a83756916985ee41776d6b02ab4262c1e7b4546a451632b48298
+checksum=cd8e9f5c9932155f9d5e7f5cc72dea64bc8a509f6ff0b5fb7a72b4c79e153f8e
+patch_args="-Np1"
+pycompile_version="$py3_ver"
+LDFLAGS+=" -Wl,-z,stack-size=2097152"
+
+# TIOCSWINSZ on ppc overflows signed int, used in ioctl()
+# glibc defines it with ulong, musl with int (should be harmless)
+case "$XBPS_TARGET_MACHINE" in
+	ppc*-musl) CFLAGS+=" -Wno-error=overflow";;
+esac
 
 do_build() {
 	if [ "$CROSS_BUILD" ]; then
-		export CFLAGS="-I${XBPS_CROSS_BASE}/${py3_inc}"
-		sed -i "s|-fpie|-fpie ${CFLAGS}|g" setup.py
+		CFLAGS+=" -I${XBPS_CROSS_BASE}/${py3_inc}"
 	fi
 	case "$XBPS_TARGET_MACHINE" in
 		*-musl)
-			sed -i 's/pow10/pow_10/g' kitty/parser.c;;
+			vsed -e 's/pow10/pow_10/g' -i kitty/parser.c;;
 	esac
-	python3 setup.py linux-package --prefix=${DESTDIR}/usr --verbose
+	python3 setup.py linux-package --prefix=${DESTDIR}/usr --update-check-interval=0 --verbose
 }
 
 do_install() {
-	vsconf ${DESTDIR}/usr/share/doc/kitty/html/_downloads/kitty.conf
+	vsconf $(find ${DESTDIR}/usr/share/doc/kitty/html/_downloads/ -name "kitty.conf")
 }
 
 kitty-terminfo_package() {
 	short_desc+=" - terminfo data"
-	noarch=yes
+	archs=noarch
 	pkg_install() {
 		vmove usr/share/terminfo
 	}

@@ -1,6 +1,6 @@
 # Template file for 'cbindgen'
 pkgname=cbindgen
-version=0.6.7
+version=0.13.1
 revision=1
 build_style=cargo
 short_desc="Tool to generate C bindings for Rust code"
@@ -8,4 +8,4 @@ maintainer="Johannes <johannes.brechtmann@gmail.com>"
 license="MPL-2.0"
 homepage="https://github.com/eqrion/cbindgen"
 distfiles="https://github.com/eqrion/cbindgen/archive/v${version}.tar.gz"
-checksum=ceafbe2c6d8f7d473db39fb8458081fee2d15b7699ebd114396d5247fb029532
+checksum=bc8a4fb6117e30ce7b7e1fc62470edbb9191a86a5f7168dc10e122983aba2c5d

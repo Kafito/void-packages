@@ -1,6 +1,6 @@
 # Template file for 'libgphoto2'
 pkgname=libgphoto2
-version=2.5.20
+version=2.5.24
 revision=1
 build_style=gnu-configure
 configure_args="--disable-static --disable-rpath udevscriptdir=/usr/lib/udev"
@@ -9,12 +9,12 @@ makedepends="gd-devel libexif-devel libltdl-devel libusb-compat-devel
  libxml2-devel"
 depends="libgphoto2-udev-rules"
 short_desc="Digital camera access library"
-maintainer="Juan RP <xtraeme@voidlinux.eu>"
-license="GPL-2.0-or-later"
+maintainer="Orphaned <orphan@voidlinux.org>"
+license="LGPL-2.1-or-later"
 homepage="http://www.gphoto.org"
 changelog="https://raw.githubusercontent.com/gphoto/libgphoto2/master/NEWS"
 distfiles="${SOURCEFORGE_SITE}/gphoto/${pkgname}-${version}.tar.bz2"
-checksum=e10ff0140e2e5dddaf6c6d9d933ab6f8c0bc66fdf7445b1ef2ca9f4d96e68b0f
+checksum=fd3c578769f0fa389c1e68120f224bd98477aa3d82d16b82746c1266c0d4fb31
 
 if [ "$CROSS_BUILD" ]; then
 	hostmakedepends+=" libgphoto2"
@@ -52,7 +52,7 @@ post_install() {
 
 libgphoto2-udev-rules_package() {
 	short_desc+=" - udev rules"
-	noarch=yes
+	archs=noarch
 	pkg_install() {
 		vmove usr/lib/udev/hwdb.d
 		vmove usr/lib/udev/rules.d

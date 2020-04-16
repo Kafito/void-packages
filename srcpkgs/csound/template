@@ -1,6 +1,6 @@
 # Template file for 'csound'
 pkgname=csound
-version=6.12.0
+version=6.14.0
 revision=1
 build_style=cmake
 configure_args="
@@ -9,21 +9,20 @@ configure_args="
  -DPORTAUDIO_V19=yes"
 hostmakedepends="flex python"
 makedepends="LuaJIT-devel boost-devel fltk-devel fluidsynth-devel libcurl-devel
- libgomp-devel liblo-devel libsndfile-devel pd-devel portaudio-devel
+ libgomp-devel liblo-devel libsndfile-devel libstk-devel pd-devel portaudio-devel
  portmidi-devel tk-devel"
-depends="pd"
-short_desc="A programming language for sound rendering and signal processing"
+depends="pd stk-data"
+short_desc="Programming language for sound rendering and signal processing"
 maintainer="Andrea Brancaleoni <abc@pompel.me>"
 license="LGPL-2.1-or-later"
 homepage="https://csound.com/"
 distfiles="https://github.com/${pkgname}/${pkgname}/archive/${version}.tar.gz"
-checksum=edb0f6ac3cffa58a992f5c1f88e0e208e6559e0a84b34ec7ec2c0cf4b917d674
-nocross=yes
+checksum=bef349c5304b2d3431ef417933b4c9e9469c0a408a4fa4a98acf0070af360a22
 
 CXXFLAGS="-Wno-error"
 
-case "$XBPS_TARGET_MACHINE" in
-	*-musl) broken="not yet supported";;
+case $XBPS_TARGET_MACHINE in
+	*-musl) makedepends+=" libexecinfo-devel";;
 esac
 
 post_install() {

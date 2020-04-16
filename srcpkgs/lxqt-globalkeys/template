@@ -1,17 +1,16 @@
 # Template file for 'lxqt-globalkeys'
 pkgname=lxqt-globalkeys
-version=0.13.0
-revision=1
+version=0.14.3
+revision=2
 build_style=cmake
-configure_args="-DPULL_TRANSLATIONS=0"
 hostmakedepends="lxqt-build-tools qt5-qmake qt5-host-tools"
 makedepends="liblxqt-devel"
 short_desc="LXQt daemon and library for global keyboard shortcuts registration"
-maintainer="Juan RP <xtraeme@voidlinux.eu>"
+maintainer="Orphaned <orphan@voidlinux.org>"
 license="LGPL-2.1-or-later"
 homepage="https://lxqt.org/"
 distfiles="https://github.com/lxqt/lxqt-globalkeys/releases/download/${version}/lxqt-globalkeys-${version}.tar.xz"
-checksum=ed6dc56e0374939caeb44380ef4a8765b097761be7381dfedbf79f089764dbbf
+checksum=e6b92c5d9b61ad95ab30d70ecf0b30fd20ef1713910cce366e97e0dd7101f455
 replaces="lxqt-common>=0"
 
 lxqt-globalkeys-devel_package() {
@@ -21,5 +20,6 @@ lxqt-globalkeys-devel_package() {
 		vmove usr/include
 		vmove usr/lib/pkgconfig
 		vmove usr/lib/*.so
+		vmove usr/share/cmake
 	}
 }

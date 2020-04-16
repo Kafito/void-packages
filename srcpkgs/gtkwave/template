@@ -1,6 +1,6 @@
 # Template file for 'gtkwave'
 pkgname=gtkwave
-version=3.3.93
+version=3.3.104
 revision=1
 build_style=gnu-configure
 configure_args="--with-tcl=${XBPS_CROSS_BASE}/usr/lib --with-tk=${XBPS_CROSS_BASE}/usr/lib"
@@ -11,14 +11,7 @@ maintainer="allan <mail@may.mooo.com>"
 license="GPL-2.0-or-later, MIT"
 homepage="http://gtkwave.sourceforge.net/"
 distfiles="http://gtkwave.sourceforge.net/gtkwave-${version}.tar.gz"
-checksum=da1b9266c079cb05e0ecdbe1a280d7df85b014613984cdce2ce742bd39fd2229
-
-pre_build() {
-	if [ "$CROSS_BUILD" ]; then
-		make -C contrib/pccts/antlr CC=cc LD=ld CFLAGS= LDFLAGS=
-		make -C contrib/pccts/dlg CC=cc LD=ld CFLAGS= LDFLAGS=
-	fi
-}
+checksum=d20dd1a9307b908439c68122a9f81d3ff434a6bfa5439f0cb01398fec650894f
 
 post_install() {
 	vlicense LICENSE.TXT

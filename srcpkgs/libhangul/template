@@ -6,7 +6,7 @@ build_style=gnu-configure
 hostmakedepends="automake gettext-devel libtool pkg-config"
 configure_args="--disable-static"
 short_desc="A library to support hangul input and character classification"
-maintainer="Michael Aldridge <maldridge@VoidLinux.eu>"
+maintainer="Michael Aldridge <maldridge@voidlinux.org>"
 license="LGPL-2.1-or-later"
 homepage="https://github.com/libhangul/libhangul"
 distfiles="https://github.com/libhangul/libhangul/archive/libhangul-${version}.tar.gz"
@@ -14,7 +14,7 @@ checksum=e2a81ef159ed098d3cc1a20377dba6204821b7ce2bc24cfb2f2543adf3bc5830
 wrksrc="$pkgname-$pkgname-$version"
 
 post_extract() {
-	sed -i '/AM_GNU_GETTEXT_VERSION/s/0.18/0.19/' configure.ac
+	sed -i '/AM_GNU_GETTEXT_VERSION/s/0.18/0.20/' configure.ac
 }
 
 pre_configure() {

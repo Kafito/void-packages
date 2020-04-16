@@ -1,15 +1,16 @@
 # Template file for 'spigot'
 pkgname=spigot
-version=20180515.c2b5409
+version=20200101.b1b0b20
 revision=1
 build_style=gnu-configure
+make_check_target="test"
 makedepends="gmp-devel"
 short_desc="Command-line exact real calculator"
 maintainer="Leah Neukirchen <leah@vuxu.org>"
 license="MIT"
 homepage="https://www.chiark.greenend.org.uk/~sgtatham/spigot/"
 distfiles="https://www.chiark.greenend.org.uk/~sgtatham/${pkgname}/${pkgname}-${version}.tar.gz"
-checksum=2642f42875ed310e8aa5413a42a34194b8ba34ae49e2bfb458c9999290d8de41
+checksum=3a1870d5afd5a947241905561bff506893f8ea9ca3745cfcb326002bba81c931
 
 post_install() {
 	vlicense LICENCE

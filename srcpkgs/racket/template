@@ -1,18 +1,19 @@
 # Template file for 'racket'
 pkgname=racket
-version=7.0
+version=7.6
 revision=1
-build_style=gnu-configure
 build_wrksrc=src
+build_style=gnu-configure
+configure_args="--enable-useprefix --disable-docs"
 hostmakedepends="gsfonts"
 makedepends="sqlite-devel gtk+-devel"
 depends="gtk+"
-short_desc="A programmable programming language"
+short_desc="Multi-paradigm programming language in the Lisp-Scheme family"
 maintainer="Andrea Brancaleoni <abc@pompel.me>"
-license="LGPL-3"
+license="LGPL-3.0-only"
 homepage="http://racket-lang.org/"
-distfiles="http://mirror.racket-lang.org/installers/$version/$pkgname-$version-src.tgz"
-checksum=2a4960292379da84c8356a506fc0567ece54211c267bd20022b7a7abab2a9bbe
+distfiles="http://mirror.racket-lang.org/installers/${version}/${pkgname}-${version}-src.tgz"
+checksum=68a161b87ec84000429d7b441626428714bd05847c48eb147f267d9bf1f14f79
 nostrip=yes
 
 if [ "$CROSS_BUILD" ]; then
@@ -21,6 +22,8 @@ if [ "$CROSS_BUILD" ]; then
 fi
 
 case "$XBPS_TARGET_MACHINE" in
+ppc*)
+	broken="hangs or segfaults";;
 *-musl)
 	makedepends+=" libucontext-devel";;
 esac
@@ -35,14 +38,18 @@ pre_configure() {
 }
 
 post_install() {
-	vlicense COPYING-libscheme.txt
+	vlicense LICENSE-libscheme.txt
+	vlicense LICENSE-MIT.txt
 }
 
 racket-doc_package() {
-	noarch=yes
-	short_desc+=" -- documentation"
+	archs=noarch
+	short_desc+=" - documentation"
 	depends="racket>=${version}_${revision}"
 	pkg_install() {
+		# Remove once --disable-doc can be removed
+		echo "Documentation currently not available." \
+			> ${DESTDIR}/usr/share/doc/racket/no-doc.txt
 		vmove usr/share/doc/racket
 	}
 }

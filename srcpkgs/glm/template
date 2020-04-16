@@ -1,24 +1,35 @@
 # Template file for 'glm'
 pkgname=glm
-version=0.9.9.3
+version=0.9.9.7
 revision=1
-noarch=yes
+archs=noarch
 wrksrc=glm
-build_style=cmake
-configure_args="-DGLM_TEST_ENABLE=OFF"
 hostmakedepends="dos2unix unzip"
-short_desc="A C++ mathematics library for graphics programming"
-maintainer="Juan RP <xtraeme@voidlinux.eu>"
+short_desc="C++ mathematics library for graphics programming"
+maintainer="Orphaned <orphan@voidlinux.org>"
 license="MIT"
 homepage="http://glm.g-truc.net"
 distfiles="https://github.com/g-truc/glm/releases/download/${version}/glm-${version}.zip"
-checksum=496e855590b8aa138347429b7fc745d66707303fb82c1545260d1888472e137b
+checksum=6b79c3d06d9745d1cce3f38c0c15666596f9aefff25ddb74df3af0a02f011ee1
+
+# No longer has install target
+# Install manually
+do_install() {
+	local i
+	vmkdir usr/include
+	for i in glm ; do
+		vcopy $i usr/include
+	done
+	vmkdir usr/share/pkgconfig
+	vinstall ${FILESDIR}/glm.pc 644 usr/share/pkgconfig
+}
 
 post_install() {
 	local f
 	for f in $(find ${DESTDIR}/usr/include -type f); do
 		dos2unix "$f"
 	done
+	rm -f "${DESTDIR}/usr/include/CMakeLists.txt"
 	sed -n '88,110p' manual.md > LICENSE
 	vlicense LICENSE
 }

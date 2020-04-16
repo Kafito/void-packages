@@ -1,0 +1,13 @@
+# Template file for 'signon-kwallet-extension'
+pkgname=signon-kwallet-extension
+version=19.12.3
+revision=1
+build_style=cmake
+hostmakedepends="extra-cmake-modules pkg-config qt5-host-tools qt5-qmake"
+makedepends="kwallet-devel qt5-devel signond-devel"
+short_desc="KWallet integration for signon framework"
+maintainer="Piotr Wójcik <chocimier@tlen.pl>"
+license="GPL-2.0-only"
+homepage="https://cgit.kde.org/signon-kwallet-extension.git/"
+distfiles="${KDE_SITE}/release-service/${version}/src/signon-kwallet-extension-${version}.tar.xz"
+checksum=46199be023bad630b769b14c2c0a63feff2949da944c76780b1ebd9a50ee3daa

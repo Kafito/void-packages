@@ -83,6 +83,8 @@ EOF
 		fi
 	done
 
+	sed 's|~>|>=|g' -i $gemspec
+
 	$gem_cmd build --verbose ${gemspec}
 
 	if [ "$CROSS_BUILD" ]; then
@@ -161,7 +163,7 @@ do_install() {
 	# Place conf files in their places
 	if [ -d ${_INSTDIR}/etc ]; then
 		find ${_INSTDIR}/etc -type f | while read -r c; do
-			vmkdir $(dirname ${c})
+			vmkdir ${c%/*}/
 			mv ${c} "${DESTDIR}/${c##*${_INSTDIR}/etc/}/"
 		done
 	fi

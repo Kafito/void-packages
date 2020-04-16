@@ -1,31 +1,35 @@
 # Template file for 'ghc-bin'
 pkgname=ghc-bin
-version=8.4.3
+version=8.8.3
 revision=1
+archs="i686 x86_64* ppc64le"
 wrksrc="ghc-${version%[!0-9]}"
 hostmakedepends="ncurses perl libffi libnuma"
 depends="ncurses perl gcc libffi-devel gmp-devel"
 short_desc="Glorious Haskell Compiler - precompiled binaries"
 maintainer="Leah Neukirchen <leah@vuxu.org>"
-license="BSD"
+license="BSD-3-Clause"
 homepage="http://www.haskell.org/ghc/"
-only_for_archs="i686 x86_64 x86_64-musl"
 nostrip=yes
 noshlibprovides=yes
 conflicts="ghc>=0 ghc-doc>=0"
 case "$XBPS_TARGET_MACHINE" in
 x86_64)
 	distfiles="https://downloads.haskell.org/~ghc/${version%[!0-9]}/ghc-${version}-x86_64-deb8-linux.tar.xz"
-	checksum=30a402c6d4754a6c020e0547f19ae3ac42e907e35349aa932d347f73e421a8e2
+	checksum=92b9fadc442976968d2c190c14e000d737240a7d721581cda8d8741b7bd402f0
 	;;
 x86_64-musl)
 	# create with "make binary-dist"
 	distfiles="https://alpha.de.repo.voidlinux.org/distfiles/ghc-${version}-x86_64-void-linux-musl.tar.xz"
-	checksum=52d72673f3213a9f629f441583c58fad099fa8827a3e86ecddadf4f8334031f9
+	checksum=50b7aff7d3d43b010e571df73e78e3c0169c671a55adbfee28753516ce1c2dc5
 	;;
 i686)
-	distfiles="https://downloads.haskell.org/~ghc/${version%[!0-9]}/ghc-${version}-i386-deb8-linux.tar.xz"
-	checksum=f5763983a26dedd88b65a0b17267359a3981b83a642569b26334423f684f8b8c
+	distfiles="https://downloads.haskell.org/~ghc/${version%[!0-9]}/ghc-${version}-i386-deb9-linux.tar.xz"
+	checksum=441e2c7a4fc83ebf179712bd939b555cda7c6633545b7c8ac38049f9d85003ae
+	;;
+ppc64le)
+	distfiles="https://alpha.de.repo.voidlinux.org/distfiles/ghc-${version}-powerpc64le-void-linux.tar.xz"
+	checksum=0c8df56aa0177459894ba53375115ab76f8eed9f4b1018fae5c332bcc6b79cb4
 	;;
 esac
 

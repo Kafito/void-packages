@@ -1,10 +1,10 @@
 # Template file for 'knotifications'
 pkgname=knotifications
-version=5.51.0
+version=5.69.0
 revision=1
 build_style=cmake
 configure_args="-DBUILD_TESTING=OFF"
-hostmakedepends="extra-cmake-modules qt5-qmake qt5-host-tools qt5-tools"
+hostmakedepends="kcoreaddons extra-cmake-modules qt5-qmake qt5-host-tools qt5-tools"
 makedepends="kwindowsystem-devel kcodecs-devel kconfig-devel
  kcoreaddons-devel phonon-qt5-devel libdbusmenu-qt5-devel"
 short_desc="KDE Desktop notifications"
@@ -12,7 +12,7 @@ maintainer="John <johnz@posteo.net>"
 license="LGPL-2.1-or-later"
 homepage="https://projects.kde.org/projects/frameworks/knotifications"
 distfiles="${KDE_SITE}/frameworks/${version%.*}/${pkgname}-${version}.tar.xz"
-checksum=7fa2ebd81ad40cc4c87b9818afdd85c13d297edd1e9a69c75c27827c4c5c676c
+checksum=d449673969123f72d891498f39461a6b25d69ff8b64911c4179d7ca48d229e15
 
 knotifications-devel_package() {
 	short_desc+=" - development"

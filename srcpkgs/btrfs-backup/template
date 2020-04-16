@@ -1,9 +1,9 @@
 # Template file for 'btrfs-backup'
 pkgname=btrfs-backup
 version=0.3.1
-revision=1
+revision=2
 wrksrc="${pkgname/-/_}-${version}"
-noarch=yes
+archs=noarch
 build_style=python3-module
 pycompile_module="${pkgname/-/_}"
 hostmakedepends="python3-setuptools"

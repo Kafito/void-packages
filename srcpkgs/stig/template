@@ -1,8 +1,8 @@
 # Template file for 'stig'
 pkgname=stig
 version=0.10.1a
-revision=1
-noarch=yes
+revision=2
+archs=noarch
 build_style=python3-module
 hostmakedepends="python3-setuptools"
 makedepends="python3-devel"

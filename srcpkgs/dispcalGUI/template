@@ -1,6 +1,6 @@
 # Template file for 'dispcalGUI'
 pkgname=dispcalGUI
-version=3.7.1.1
+version=3.8.9.3
 revision=1
 _name="DisplayCAL"
 wrksrc="${_name}-${version}"
@@ -14,7 +14,7 @@ maintainer="lemmi <lemmi@nerd2nerd.org>"
 license="GPL-3.0-or-later"
 homepage="https://displaycal.net/"
 distfiles="${SOURCEFORGE_SITE}/dispcalgui/${_name}-${version}.tar.gz"
-checksum=e0e647266795a0dac15263026df297fc9e09cc88a52ae3bb60d4a61800ae2ac2
+checksum=7c34dfbd9f66f24f1d4c88de4a5a0de688aad719f095874b6259637d30893bea
 
 pre_configure() {
 	sed -i 's|MimeType=model/vrml;x-world/x-vrml;|MimeType=model/vrml;|' misc/displaycal-vrml-to-x3d-converter.desktop

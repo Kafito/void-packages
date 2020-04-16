@@ -1,12 +1,29 @@
 # Template file for 'thrift'
 pkgname=thrift
-version=0.11.0
-revision=1
+version=0.13.0
+revision=3
 build_style=gnu-configure
+makedepends="boost-devel libressl-devel"
 short_desc="Apache Thrift compiler"
 maintainer="Renato Aguiar <renato@renag.me>"
 license="Apache-2.0"
 homepage="https://thrift.apache.org/"
 distfiles="http://www-us.apache.org/dist/thrift/${version}/thrift-${version}.tar.gz"
-checksum=c4ad38b6cb4a3498310d405a91fef37b9a8e79a50cd0968148ee2524d2fa60c2
-nocross="Executes binaries for testing during build"
+checksum=7ad348b88033af46ce49148097afe354d513c1fca7c607b59c33ebb6064b5179
+
+if [ "$XBPS_TARGET_NO_ATOMIC8" ]; then
+	makedepends+=" libatomic-devel"
+fi
+
+if [ "$CROSS_BUILD" ]; then
+	configure_args="--disable-tests --disable-tutorial"
+fi
+
+post_configure() {
+	case "$XBPS_TARGET_MACHINE" in
+		ppc64*) ;;
+		ppc*)
+			sed -i '/libthrift_la_LIBADD/s/$/ -latomic/' lib/cpp/Makefile
+			;;
+	esac
+}

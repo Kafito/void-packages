@@ -1,8 +1,8 @@
 # Template file for 'perl-Mail-DKIM'
 pkgname=perl-Mail-DKIM
-version=0.54
+version=0.58
 revision=1
-noarch=yes
+archs=noarch
 wrksrc="${pkgname/perl-/}-${version}"
 build_style=perl-module
 hostmakedepends="perl"
@@ -15,4 +15,4 @@ maintainer="johannes <johannes.brechtmann@gmail.com>"
 license="Artistic-1.0-Perl, GPL-1.0-or-later"
 homepage="https://metacpan.org/release/Mail-DKIM"
 distfiles="${CPAN_SITE}/Mail/Mail-DKIM-${version}.tar.gz"
-checksum=b72f78c80f7aa1bdb2a80986b45f9225a8fa0b7c91644590b102a78eb31c3dca
+checksum=0a43a42b528a435f9e393171bf8ca1dc0cb54092f1d120d6299e615c0c55f331

@@ -1,23 +1,29 @@
 # Template file for 'fractal'
 pkgname=fractal
-version=3.30.0
-revision=2
+version=4.2.2
+revision=1
 build_style=meson
-hostmakedepends="rust cargo pkg-config"
-makedepends="gtk+3-devel glib-devel libressl-devel gstreamer1-devel
+build_helper="rust"
+hostmakedepends="cargo pkg-config glib-devel"
+makedepends="gtk+3-devel libglib-devel libressl-devel gstreamer1-devel
  cairo-devel gettext-devel gst-plugins-base1-devel gst-plugins-bad1-devel
- gtksourceview-devel pango-devel gspell-devel gmp-devel"
-nocross=rust
+ gst1-editing-services-devel gtksourceview4-devel pango-devel gspell-devel
+ gmp-devel libsecret-devel libhandy-devel rust-std"
 short_desc="Matrix Messaging Client for GNOME"
-maintainer="Cameron Nemo <camerontnorman@gmail.com>"
+maintainer="Cameron Nemo <cnemo@tutanota.com>"
 license="GPL-3.0-or-later"
 homepage="https://wiki.gnome.org/Apps/Fractal"
 distfiles="https://gitlab.gnome.org/World/fractal/-/archive/$version/$pkgname-$version.tar.gz"
-checksum=aa3645ff971525b059fa85da26e4afd5532e348acf6b161b706e2482894f63b3
-broken="https://build.voidlinux.org/builders/x86_64-musl_builder/builds/14614/steps/shell_3/logs/stdio"
+checksum=3f722e2fbadd6cee1ce98a92cf718c8051532dfd71180a453695365aa80d2b02
 
-pre_build() {
-	export GETTEXT_BIN_DIR=/usr/bin
-	export GETTEXT_LIB_DIR="${XBPS_CROSS_BASE}/usr/lib/gettext"
-	export GETTEXT_INCLUDE_DIR="${XBPS_CROSS_BASE}/usr/include"
+if [ "$XBPS_TARGET_LIBC" = "musl" ]; then
+	broken="error: Could not compile gtk. (segfaults rustc)"
+fi
+
+post_patch() {
+	[ -z "$CROSS_BUILD" ] && return 0
+
+	vsed -i scripts/cargo.sh \
+		-e 's;"$CARGO_TARGET_DIR";&/${RUST_TARGET};' \
+		-e '/CARGO_HOME/d'
 }

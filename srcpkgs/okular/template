@@ -1,20 +1,20 @@
 # Template file for 'okular'
 pkgname=okular
-version=18.08.2
-revision=1
+version=19.12.3
+revision=2
 build_style=cmake
-hostmakedepends="extra-cmake-modules pkg-config"
+hostmakedepends="extra-cmake-modules pkg-config gettext kcoreaddons"
 makedepends="discount-devel djvulibre-devel ebook-tools-devel khtml-devel
  kpty-devel libchmlib-devel libkexiv25-devel libqmobipocket-devel
  libspectre-devel libzip-devel plasma-framework-devel poppler-qt5-devel
  purpose-devel qca-qt5-devel qt5-speech-devel threadweaver-devel"
 depends="hicolor-icon-theme"
 short_desc="KDE Document Viewer"
-maintainer="Juan RP <xtraeme@voidlinux.eu>"
+maintainer="John <johnz@posteo.net>"
 license="GPL-2.0-only"
-homepage="http://kde.org/applications/graphics/okular/"
-distfiles="${KDE_SITE}/applications/${version}/src/${pkgname}-${version}.tar.xz"
-checksum=1bc4e539348053550aa05c7d73465130502b2ee11866cf2d253edde20d1846f9
+homepage="https://www.kde.org/applications/graphics/okular/"
+distfiles="${KDE_SITE}/release-service/${version}/src/${pkgname}-${version}.tar.xz"
+checksum=c5de22cc4292e3b7adae3f6ef6566dcba33a1dd5995fb0b968ea3e705a4c04e0
 
 if [ "$CROSS_BUILD" ]; then
 	hostmakedepends+=" qt5-qmake qt5-host-tools kdoctools kconfig"

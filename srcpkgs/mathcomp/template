@@ -1,7 +1,7 @@
 # Template file for 'mathcomp'
 pkgname=mathcomp
-version=1.7.0
-revision=1
+version=1.10.0
+revision=3
 wrksrc="math-comp-mathcomp-${version}"
 build_wrksrc="mathcomp"
 build_style=gnu-makefile
@@ -11,7 +11,7 @@ maintainer="Leah Neukirchen <leah@vuxu.org>"
 license="CeCILL-B"
 homepage="https://github.com/math-comp/math-comp"
 distfiles="https://github.com/math-comp/math-comp/archive/${pkgname}-${version}.tar.gz"
-checksum=69c01e99aad618fa9a0bb4a19af00827c505b8205816eb590e51abca49f4ef17
+checksum=3f8a88417f3456da05e2755ea0510c1bd3fd13b13c41e62fbaa3de06be040166
 nocross=yes
 
 do_install() {

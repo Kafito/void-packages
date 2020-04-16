@@ -1,6 +1,6 @@
 # Template file for 'zabbix'
 pkgname=zabbix
-version=4.0.1
+version=4.4.7
 revision=1
 build_style=gnu-configure
 configure_args="--with-libxml2 --with-gnutls --with-libcurl --with-net-snmp
@@ -11,33 +11,22 @@ makedepends="gnutls-devel libcurl-devel libevent-devel libmysqlclient-devel
  libxml2-devel net-snmp-devel pcre-devel"
 depends="fping mysql"
 short_desc="IT Infrastructure components availability and performance monitoring"
-maintainer="maxice8 <thinkabit.ukim@gmail.com>"
+maintainer="Orphaned <orphan@voidlinux.org>"
 license="GPL-2.0-or-later"
 homepage="https://www.zabbix.com"
 changelog="https://www.zabbix.com/rn/rn${version}"
 distfiles="${SOURCEFORGE_SITE}/zabbix/zabbix-${version}.tar.gz"
-checksum=c73d54074885ae68c23dddc060e9e7f24c96f808eb502c5ee648c2820790e2fd
+checksum=497b8fe7905576d4d450c6fa486693c10d42915b6b55564f111957edcb9fec8d
 conf_files="/etc/zabbix_server.conf"
 system_accounts="_zabbix_server"
 system_groups="_zabbix_server"
-make_dirs="/var/run/zabbix-server 0750 _zabbix_server _zabbix_server
- /var/log/zabbix-server 0750 _zabbix_server _zabbix_server"
+make_dirs="/var/log/zabbix-server 0750 _zabbix_server _zabbix_server"
 
 if [ "$CROSS_BUILD" ]; then
 	# configure scripts is bad at checking, problably runs code instead of
 	# using pkg-config files
 	hostmakedepends+=" libssh2-devel libevent-devel gnutls-devel pcre-devel"
 fi
-
-pre_install() {
-	for file in server agentd proxy; do
-		sed -i conf/zabbix_${file}.conf \
-			-e "s|# SNMPTrapperFile=/tmp|SNMPTrapperFile=/var/log/zabbix-${file}|" \
-			-e "s|# PidFile=/tmp|PidFile=/var/run/zabbix-${file}|" \
-			-e "s|LogFile=/tmp|LogFile=/var/log/zabbix-${file}|"
-	done
-	sed -i conf/zabbix_server.conf -e "s|# DBSocket=.*|DBSocket=/run/mysqld/mysqld.sock|"
-}
 
 post_install() {
 	vsv zabbix-server
@@ -48,11 +37,21 @@ post_install() {
 
 	vmkdir usr/share/webapps/zabbix
 	cp -a frontends/php/* "${DESTDIR}/usr/share/webapps/zabbix"
+
+	for file in server proxy; do
+		vsed -i ${DESTDIR}/etc/zabbix_${file}.conf \
+			-e "s|# SNMPTrapperFile=|SNMPTrapperFile=/var/log/zabbix-${file}|" \
+			-e "s|# DBSocket=.*|DBSocket=/run/mysqld/mysqld.sock|"
+	done
+	for file in server agentd proxy; do
+		vsed -i ${DESTDIR}/etc/zabbix_${file}.conf \
+			-e "s|# PidFile=/tmp|PidFile=/run/zabbix-${file}|" \
+			-e "s|LogFile=/tmp|LogFile=/var/log/zabbix-${file}|"
+	done
 }
 
 zabbix-agent_package() {
-	make_dirs="/var/run/zabbix-agentd 0750 _zabbix_agent _zabbix_agent
-	 /var/log/zabbix-agentd 0750 _zabbix_agent _zabbix_agent"
+	make_dirs="/var/log/zabbix-agentd 0750 _zabbix_agent _zabbix_agent"
 	system_accounts="_zabbix_agent"
 	system_groups=_zabbix_agent
 	short_desc="Zabbix Network Monitoring Agent"
@@ -79,8 +78,7 @@ zabbix-utils_package() {
 zabbix-proxy_package() {
 	system_accounts="_zabbix_proxy"
 	system_groups=_zabbix_proxy
-	make_dirs="/var/run/zabbix-proxy 0750 _zabbix_proxy _zabbix_proxy
-	 /var/log/zabbix-proxy 0750 _zabbix_proxy _zabbix_proxy"
+	make_dirs="/var/log/zabbix-proxy 0750 _zabbix_proxy _zabbix_proxy"
 	depends="zabbix"
 	short_desc="Zabbix Network Monitoring Proxy"
 	conf_files="/etc/zabbix_proxy.conf"
@@ -93,6 +91,7 @@ zabbix-proxy_package() {
 }
 
 zabbix-frontend-php_package() {
+	archs=noarch
 	depends="zabbix php-gd php-mysql"
 	short_desc="Zabbix Networking Monitoring PHP Frontend"
 	pkg_install() {

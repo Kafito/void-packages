@@ -1,16 +1,17 @@
 # Template file for 'incidenceeditor'
 pkgname=incidenceeditor
-version=18.08.2
+version=19.12.3
 revision=1
 build_style=cmake
-hostmakedepends="extra-cmake-modules qt5-qmake qt5-host-tools kconfig"
+hostmakedepends="extra-cmake-modules qt5-qmake qt5-host-tools kcoreaddons kconfig
+ gettext"
 makedepends="calendarsupport-devel eventviews-devel kdiagram-devel"
 short_desc="KDE PIM incidence editor"
-maintainer="Helmut Pozimski <helmut@pozimski.eu>"
+maintainer="Orphaned <orphan@voidlinux.org>"
 license="GPL-2.0-or-later"
 homepage="https://community.kde.org/KDE_PIM"
-distfiles="${KDE_SITE}/applications/${version}/src/${pkgname}-${version}.tar.xz"
-checksum=78a4197a2a5bc14d1dd816197f4d19a74103a92ecb9220cb5d90757212b75524
+distfiles="${KDE_SITE}/release-service/${version}/src/${pkgname}-${version}.tar.xz"
+checksum=c608a95f6d09433b378f5df0243eff77be3738fb56f99ab439774f2cad5908a6
 
 incidenceeditor-devel_package() {
 	short_desc+=" - development"
@@ -19,7 +20,7 @@ incidenceeditor-devel_package() {
 		vmove usr/include
 		vmove usr/lib/qt5/mkspecs
 		vmove usr/lib/cmake
-		vmove usr/lib/*.so
+		vmove "usr/lib/*.so"
 	}
 }
 

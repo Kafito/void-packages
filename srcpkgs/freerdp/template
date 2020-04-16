@@ -1,8 +1,8 @@
 # Template file for 'freerdp'
 pkgname=freerdp
-version=2.0.0rc3
-revision=2
-wrksrc="FreeRDP-${version/r/-r}"
+version=2.0.0
+revision=1
+wrksrc="FreeRDP-${version}"
 build_style=cmake
 configure_args="-DWITH_ALSA=ON -DWITH_CUPS=OFF -DWITH_FFMPEG=ON
  -DWITH_GSTREAMER_0_10=OFF -DWITH_GSTREAMER_1_0=OFF -DWITH_JPEG=ON
@@ -10,16 +10,16 @@ configure_args="-DWITH_ALSA=ON -DWITH_CUPS=OFF -DWITH_FFMPEG=ON
  -DWITH_XCURSOR=ON -DWITH_XEXT=ON -DWITH_XI=ON -DWITH_XINERAMA=ON
  -DWITH_XKBFILE=ON -DWITH_XRENDER=ON -DWITH_XV=ON"
 hostmakedepends="pkg-config xmlto"
-makedepends="alsa-lib-devel ffmpeg-devel glib-devel
+makedepends="alsa-lib-devel ffmpeg-devel glib-devel libusb-devel
  libXcursor-devel libXinerama-devel  libXrandr-devel libXv-devel
  libjpeg-turbo-devel libressl-devel libxkbfile-devel pulseaudio-devel"
 short_desc="Free RDP (Remote Desktop Protocol) client"
-maintainer="Juan RP <xtraeme@voidlinux.eu>"
+maintainer="Orphaned <orphan@voidlinux.org>"
 license="Apache-2.0"
 homepage="https://www.freerdp.com/"
 changelog="https://raw.githubusercontent.com/FreeRDP/FreeRDP/master/ChangeLog"
-distfiles="https://github.com/FreeRDP/FreeRDP/archive/${version/r/-r}.tar.gz"
-checksum=d32d4a092e468deb3a1296e8358f900bf7e80afd0876d815ba43622ce29596c5
+distfiles="https://github.com/FreeRDP/FreeRDP/archive/${version}.tar.gz"
+checksum=6f5202240119f79bb9f23c82b71ab17b493d92571bfd3f59ca6dcad11d77030d
 
 case "$XBPS_TARGET_MACHINE" in
 	i686*|x86_64*) configure_args+=" -DWITH_SSE2=ON";;
@@ -29,12 +29,12 @@ libfreerdp_package() {
 	replaces="${sourcepkg}<1.0.2_2"
 	short_desc+=" - runtime libraries"
 	pkg_install() {
-		vmove usr/lib/*.so.*
+		vmove "usr/lib/*.so.*"
 	}
 }
 freerdp-devel_package() {
 	short_desc+=" - development files"
-	depends="lib${sourcepkg}>=${version}_${revision}"
+	depends="libressl-devel lib${sourcepkg}>=${version}_${revision}"
 	pkg_install() {
 		vmove usr/include
 		vmove usr/lib/pkgconfig

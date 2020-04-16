@@ -1,17 +1,17 @@
 # Template file for 'kubernetes-helm'
 pkgname=kubernetes-helm
-version=2.11.0
+version=3.1.2
 revision=1
-hostmakedepends="go make git mercurial"
-short_desc="The Kubernetes Package Manager"
+wrksrc="helm-${version}"
+hostmakedepends="go make git mercurial tar"
+short_desc="Kubernetes Package Manager"
 maintainer="Kyle Nusbaum <knusbaum+void@sdf.org>"
 license="Apache-2.0"
 homepage="https://helm.sh/"
 distfiles="https://github.com/helm/helm/archive/v${version}.tar.gz"
-checksum=eee403cc1e05ab2eb1c6802eb7ecc4a5c544cb5971b7ee828c0b8d60fe061eb0
-nopie=true
+checksum=06c7a43be1841b07c4737999d90c1d194b80b55c6d80829349121e8e95f4a1e1
 conflicts="helm"
-wrksrc="helm-${version}"
+nopie=true
 
 _convert_arch() {
 	case "$1" in
@@ -20,6 +20,7 @@ _convert_arch() {
 		armv7*) echo arm;;
 		i686*) echo 386;;
 		x86_64*) echo amd64;;
+		ppc64le*) echo ppc64le;;
 	esac
 }
 
@@ -50,7 +51,7 @@ pre_build() {
 
 do_build() {
 	cd golib/src/k8s.io/helm
-	TARGETS="linux/${_go_target_arch} linux/${_go_host_arch}" make bootstrap build-cross APP="..."
+	TARGETS="linux/${_go_target_arch} linux/${_go_host_arch}" make build-cross APP="..." LDFLAGS="-X k8s.io/helm/pkg/version.Version=v${version} -X k8s.io/helm/pkg/version.BuildMetadata="
 
 	_dist/linux-${_go_host_arch}/helm completion bash > completion.bash
 	_dist/linux-${_go_host_arch}/helm completion zsh > completion.zsh
@@ -59,17 +60,10 @@ do_build() {
 do_install() {
 	cd golib/src/k8s.io/helm
 
-	# Copy documentation and examples.
-	vmkdir usr/share/examples/$pkgname
-	vcopy "docs/examples/*" usr/share/examples/$pkgname
-	for file in docs/man/man1/*.1; do
-		vman ${file}
-	done
+	# Copy helm binary
+	vbin _dist/linux-${_go_target_arch}/helm
+
+	# Copy completion files
 	vinstall completion.bash 644 usr/share/bash-completion/completions helm
 	vinstall completion.zsh 644 usr/share/$pkgname
-
-	# Copy binaries and license
-	vbin _dist/linux-${_go_target_arch}/helm
-	vbin _dist/linux-${_go_target_arch}/tiller
-	vlicense LICENSE
 }

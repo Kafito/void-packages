@@ -1,6 +1,6 @@
 # Template file for 'json-c++'
 pkgname=json-c++
-version=3.4.0
+version=3.7.3
 revision=1
 wrksrc="json-${version}"
 build_style=cmake
@@ -9,7 +9,11 @@ maintainer="Jürgen Buchmüller <pullmoll@t-online.de>"
 license="MIT"
 homepage="https://github.com/nlohmann/json"
 distfiles="https://github.com/nlohmann/json/archive/v${version}.tar.gz"
-checksum=c377963a95989270c943d522bfefe7b889ef5ed0e1e15d535fd6f6f16ed70732
+checksum=249548f4867417d66ae46b338dfe0a2805f3323e81c9e9b83c89f3adbfde6f31
+
+if [ -z "$XBPS_CHECK_PKGS" ]; then
+	configure_args+=" -DBUILD_TESTING=OFF"
+fi
 
 post_install() {
 	vlicense LICENSE.MIT

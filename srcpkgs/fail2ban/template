@@ -1,8 +1,8 @@
 # Template file for 'fail2ban'
 pkgname=fail2ban
 version=0.10.4
-revision=1
-noarch=yes
+revision=2
+archs=noarch
 build_style=python3-module
 hostmakedepends="pkg-config python3"
 depends="python3"

@@ -1,8 +1,8 @@
 # Template file for 'vdirsyncer'
 pkgname=vdirsyncer
 version=0.16.7
-revision=1
-noarch=yes
+revision=2
+archs=noarch
 build_style=python3-module
 pycompile_module="vdirsyncer"
 hostmakedepends="python3-setuptools"

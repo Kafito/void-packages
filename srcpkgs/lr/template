@@ -1,14 +1,15 @@
 # Template file for 'lr'
 pkgname=lr
-version=1.4
+_githash_guide=cc41aede949a8ef521001f6e744a45d77dce6726
+version=1.5.1
 revision=1
 build_style=gnu-makefile
 short_desc="List files, recursively (a better ls/find/stat/du)"
 maintainer="Leah Neukirchen <leah@vuxu.org>"
 license="MIT"
-homepage="https://github.com/chneukirchen/lr"
-distfiles="https://github.com/chneukirchen/${pkgname}/archive/v${version}.tar.gz"
-checksum=d485565928c423a0856dabb268bcf2cc725ec100f169cb57a355525ddb285d96
+homepage="https://github.com/leahneukirchen/lr"
+distfiles="https://github.com/leahneukirchen/${pkgname}/archive/v${version}.tar.gz"
+checksum=3c9337b9d924f2318083edc72fa9dfcf571a4af2a411abf57ad12baa5e27cc4a
 
 post_install() {
 	vlicense LICENSE

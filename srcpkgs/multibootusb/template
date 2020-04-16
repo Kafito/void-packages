@@ -1,8 +1,8 @@
 # Template file for 'multibootusb'
 pkgname=multibootusb
 version=9.2.0
-revision=2
-noarch=yes
+revision=3
+archs=noarch
 build_style=python3-module
 pycompile_module="scripts"
 hostmakedepends="python3-setuptools"

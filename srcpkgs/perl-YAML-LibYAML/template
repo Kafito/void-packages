@@ -1,6 +1,6 @@
 # Template file for 'perl-YAML-LibYAML'
 pkgname=perl-YAML-LibYAML
-version=0.75
+version=0.81
 revision=1
 wrksrc="${pkgname/perl-/}-${version}"
 build_style=perl-module
@@ -8,8 +8,8 @@ hostmakedepends="perl"
 makedepends="perl"
 depends="$makedepends"
 short_desc="Perl YAML Serialization using XS and libyaml"
-maintainer="maxice8 <thinkabit.ukim@gmail.com>"
+maintainer="Zach Dykstra <dykstra.zachary@gmail.com>"
 license="Artistic-1.0-Perl, GPL-1.0-or-later"
 homepage="https://metacpan.org/release/YAML-LibYAML"
 distfiles="${CPAN_SITE}/YAML/YAML-LibYAML-${version}.tar.gz"
-checksum=62ccd4a87daaf3576054f9027d9f3321116374a3a3882eb07166cf01b33792ca
+checksum=70df660bfdd398b7a45d2b9d40f60a6036bc385a2f89e1af874029ee27f195e7

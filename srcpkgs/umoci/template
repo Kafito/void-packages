@@ -1,20 +1,20 @@
 # Template file for 'umoci'
 pkgname=umoci
-version=0.4.2
+version=0.4.5
 revision=1
 build_style=go
 go_import_path=github.com/openSUSE/umoci
 go_package="${go_import_path}/cmd/${pkgname}"
-hostmakedepends="git go-md2man"
+hostmakedepends="go-md2man"
 short_desc="Umoci Modifies Open Container Images"
-maintainer="Cameron Nemo <camerontnorman@gmail.com>"
+maintainer="Cameron Nemo <cnemo@tutanota.com>"
 license="Apache-2.0"
 homepage="https://umo.ci"
 distfiles="https://${go_import_path}/archive/v${version}.tar.gz"
-checksum=fbc397dd39bda2570155dc3b1be0835809a36fccc342e2545b3edb9f0f9dc6f5
+checksum=85f8c1b5227f4e44ea280da3dd984b815c811ae5e9280a83b835b64df3eff1b8
 
 post_install() {
-	make doc
+	make local-doc
 	for m in doc/man/*.1; do
 		vman "${m}"
 	done

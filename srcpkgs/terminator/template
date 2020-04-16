@@ -1,15 +1,15 @@
 # Template file for 'terminator'
 pkgname=terminator
 version=1.91
-revision=1
-noarch=yes
+revision=2
+archs=noarch
 build_style=python2-module
 pycompile_module="terminatorlib"
 hostmakedepends="intltool python"
 depends="desktop-file-utils gsettings-desktop-schemas libkeybinder3 libnotify
  python-dbus python-gobject python-psutil vte3"
 short_desc="Tiling terminal emulator application"
-maintainer="Enno Boland <gottox@voidlinux.eu>"
+maintainer="Enno Boland <gottox@voidlinux.org>"
 license="GPL-2.0-only"
 homepage="https://gnometerminator.blogspot.de/"
 distfiles="https://launchpad.net/${pkgname}/gtk3/${version}/+download/${pkgname}-${version}.tar.gz"

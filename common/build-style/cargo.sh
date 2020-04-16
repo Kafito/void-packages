@@ -2,18 +2,6 @@
 # This helper is for building rust projects which use cargo for building
 #
 
-do_configure() {
-	mkdir -p ${HOME}/.cargo
-	# respect makejobs, do cross stuff
-	cat > ${HOME}/.cargo/config <<EOF
-[build]
-jobs = ${makejobs#*j}
-
-[target.${RUST_TARGET}]
-linker = "${CC}"
-EOF
-}
-
 do_build() {
 	: ${make_cmd:=cargo}
 
@@ -28,8 +16,11 @@ do_check() {
 
 do_install() {
 	: ${make_cmd:=cargo}
+	: ${make_install_args:=--path .}
 
-	${make_cmd} install --path . --target ${RUST_TARGET} --root="${DESTDIR}/usr" \
-		${make_install_args}
-	rm "${DESTDIR}"/usr/.crates.toml
+	${make_cmd} install --target ${RUST_TARGET} --root="${DESTDIR}/usr" \
+		--locked ${configure_args} ${make_install_args}
+
+	rm -f "${DESTDIR}"/usr/.crates.toml
+	rm -f "${DESTDIR}"/usr/.crates2.json
 }

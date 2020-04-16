@@ -1,22 +1,17 @@
 # Template file for 'xwallpaper'
 pkgname=xwallpaper
-version=0.3.0
-revision=2
+version=0.6.4
+revision=1
 build_style=gnu-configure
 hostmakedepends="automake pkg-config"
 makedepends="libjpeg-turbo-devel libpng-devel libseccomp-devel
  libXpm-devel pixman-devel xcb-util-image-devel"
 short_desc="Wallpaper setting utility for X"
-maintainer="Orphaned <orphan@voidlinux.eu>"
-homepage="https://github.com/stoeckmann/xwallpaper"
+maintainer="bra1nwave <bra1nwave@protonmail.com>"
 license="ISC"
+homepage="https://github.com/stoeckmann/xwallpaper"
 distfiles="https://github.com/stoeckmann/xwallpaper/archive/v${version}.tar.gz"
-checksum=41939faf7b2ef9286e3985fbd6147ce74ec1398c11ec851454adbef5a36e96c5
-
-case "$XBPS_TARGET_MACHINE" in
-	i686*) configure_args+=" --without-seccomp" ;;
-	*) ;;
-esac
+checksum=109d0808c8f641003da5537bb6a56d6abba20fc41848396ca94a5b37f3c65bf9
 
 pre_configure() {
 	autoreconf -fiv

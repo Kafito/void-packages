@@ -1,13 +1,13 @@
 # Template file for 'io.elementary.stylesheet'
 pkgname=io.elementary.stylesheet
-version=5.2.0
+version=5.4.2
 revision=1
+archs=noarch
 wrksrc="stylesheet-${version}"
 build_style=meson
-noarch=yes
-short_desc="The Gtk+ Stylesheet for elementary OS"
-maintainer="Cameron Nemo <camerontnorman@gmail.com>"
+short_desc="GTK Stylesheet for elementary OS"
+maintainer="Cameron Nemo <cnemo@tutanota.com>"
 license="GPL-3.0-or-later"
 homepage="https://github.com/elementary/stylesheet"
 distfiles="${homepage}/archive/${version}.tar.gz"
-checksum=4a72ba818f57ba7063e092ccdf0ca8ff23185514d5eda1a5a28fe594e0049835
+checksum=3bc37723daf4ce0b7c9ce4c125ef0055affe8d6654981388ec87d4a23a1ae0ec

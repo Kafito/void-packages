@@ -1,8 +1,8 @@
 # Template file for 'perl-DateTime-TimeZone'
 pkgname=perl-DateTime-TimeZone
-version=2.21
+version=2.38
 revision=1
-noarch=yes
+archs=noarch
 wrksrc="${pkgname/perl-/}-${version}"
 build_style=perl-module
 hostmakedepends="perl"
@@ -12,7 +12,7 @@ depends="$makedepends"
 checkdepends="perl-Test-Requires perl-DateTime perl-Test-Output"
 short_desc="Time zone object base class and factory"
 maintainer="John Regan <john@jrjrtech.com>"
-homepage="https://metacpan.org/release/DateTime-TimeZone"
 license="Artistic-1.0-Perl, GPL-1.0-or-later"
+homepage="https://metacpan.org/release/DateTime-TimeZone"
 distfiles="${CPAN_SITE}/DateTime/${pkgname/perl-/}-${version}.tar.gz"
-checksum=54d685f79df1033c259502cd9c22b1a9d37b627bf815faecebaa27f8e1079e1e
+checksum=0e5c99ef22471f4d262ac590ce5ce8177094d7a92f380d8eea6219f5a12dc0cd

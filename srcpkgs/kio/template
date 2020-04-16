@@ -1,25 +1,23 @@
 # Template file for 'kio'
 pkgname=kio
-version=5.51.0
+version=5.69.0
 revision=1
 build_style=cmake
-configure_args="-DBUILD_TESTING=OFF"
-hostmakedepends="extra-cmake-modules kauth"
-makedepends="kdoctools-devel ksolid-devel kbookmarks-devel kjobwidgets-devel kwallet-devel acl-devel mit-krb5-devel libxslt-devel libxml2-devel"
+configure_args="-DBUILD_TESTING=OFF
+ -DDESKTOPTOJSON_EXECUTABLE=/usr/bin/desktoptojson"
+hostmakedepends="kcoreaddons extra-cmake-modules kauth gettext
+ qt5-host-tools qt5-qmake python kdoctools libxml2 kcoreaddons"
+makedepends="kdoctools-devel ksolid-devel kbookmarks-devel kjobwidgets-devel
+ kwallet-devel acl-devel mit-krb5-devel libxslt-devel libxml2-devel"
 depends="desktop-file-utils"
 short_desc="KDE Network transparent access to files and data"
 maintainer="John <johnz@posteo.net>"
 license="LGPL-2.0-or-later"
 homepage="https://projects.kde.org/projects/frameworks/kio"
 distfiles="${KDE_SITE}/frameworks/${version%.*}/${pkgname}-${version}.tar.xz"
-checksum=c083dfb537e50f143770f0b50665da3779969ee3a1e38ba08e6ed3cc5c921cc7
+checksum=09e4d37058bb5b5993536ea6b010c605b9d2f732e141e9903e2d5f64fea20de6
 
 CXXFLAGS+=" -fpermissive"
-
-if [ "$CROSS_BUILD" ]; then
-	hostmakedepends+=" qt5-host-tools qt5-qmake python kdoctools libxml2 kcoreaddons"
-	configure_args+=" -DDESKTOPTOJSON_EXECUTABLE=/usr/bin/desktoptojson"
-fi
 
 kio-devel_package() {
 	short_desc+=" - development"
@@ -27,6 +25,7 @@ kio-devel_package() {
 	pkg_install() {
 		vmove usr/include
 		vmove usr/lib/qt5/mkspecs
+		vmove usr/lib/qt5/plugins/designer
 		vmove usr/lib/cmake
 		vmove "usr/lib/*.so"
 	}

@@ -1,8 +1,6 @@
-resolver: lts-12.13
+resolver: lts-15.4
 packages:
 - .
 extra-deps:
 - iwlib-0.1.0
-- parsec-numbers-0.1.0
-- alsa-mixer-0.2.0.3
-- dbus-1.0.1
+- netlink-1.1.1.0

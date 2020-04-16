@@ -1,20 +1,20 @@
 # Template file for 'skype'
 # This just repackages the debian package.
 pkgname=skype
-reverts="8.30.76.41_1"
-version=8.33.0.41
+version=8.58.0.93
 revision=1
-only_for_archs="x86_64"
-repository="nonfree"
+archs="x86_64"
 build_style="fetch"
-nostrip="yes"
+hostmakedepends="tar xz"
 depends="elogind"
 short_desc="Skype for Linux"
 maintainer="Lon Willett <xgit@lonw.net>"
-license="skype"
+license="custom:skype-servicesagreement"
 homepage="https://www.skype.com"
 distfiles="https://repo.skype.com/deb/pool/main/s/skypeforlinux/skypeforlinux_${version}_amd64.deb"
-checksum=bda45e1a5a60c5a1c8347eeb7ad9077925cda4d33d822a123ab7edee48aca878
+checksum=836e25800320d96e8d35d05e60b98a6dd4da077f02880c9e34097d50686c0adb
+repository="nonfree"
+nostrip="yes"
 
 do_extract() {
 	ar p ${XBPS_SRCDISTDIR}/${pkgname}-${version}/skypeforlinux_${version}_amd64.deb data.tar.xz | tar xJpf - ./usr
@@ -22,10 +22,11 @@ do_extract() {
 
 do_install() {
 
+	vsed -i usr/bin/skypeforlinux -e "s;share/;lib/;g"
 	vbin usr/bin/skypeforlinux
 
-	vmkdir usr/share
-	vcopy usr/share/skypeforlinux usr/share
+	vmkdir usr/lib
+	vcopy usr/share/skypeforlinux usr/lib
 
 	vlicense usr/share/doc/skypeforlinux/third-party_attributions.html
 	# The binary needs to be able to find this under /usr/share/doc

@@ -1,17 +1,23 @@
 # Template file for 'qpdf'
 pkgname=qpdf
-version=8.2.1
+version=10.0.1
 revision=1
+wrksrc="qpdf-release-qpdf-${version}"
 build_style=gnu-configure
-hostmakedepends="perl"
+hostmakedepends="gettext tar"
 makedepends="pcre-devel libjpeg-turbo-devel"
-short_desc="A Content-Preserving PDF Transformation System"
-maintainer="Juan RP <xtraeme@voidlinux.eu>"
+short_desc="Content-Preserving PDF Transformation System"
+maintainer="Benjamín Albiñana <benalb@gmail.com>"
 license="Apache-2.0"
-homepage="http://qpdf.sourceforge.net"
+homepage="https://github.com/qpdf/qpdf"
 changelog="https://raw.githubusercontent.com/qpdf/qpdf/master/ChangeLog"
-distfiles="${SOURCEFORGE_SITE}/${pkgname}/${pkgname}-${version}.tar.gz"
-checksum=f445d3ebda833fe675b7551378f41fa1971cc6f7a7921bbbb94d3a71a404abc9
+distfiles="${homepage}/archive/release-qpdf-${version}.tar.gz"
+checksum=6bf21d71fc23b3dd0edf4699d4d68760402482cb8a96e7e36eae92914f931bca
+
+if [ "$XBPS_TARGET_NO_ATOMIC8" ]; then
+	makedepends+=" libatomic-devel"
+	LDFLAGS+=" -latomic"
+fi
 
 libqpdf_package() {
 	short_desc+=" - shared library"
@@ -21,7 +27,7 @@ libqpdf_package() {
 }
 
 libqpdf-devel_package() {
-	depends="libqpdf>=${version}_${revision}"
+	depends="libqpdf>=${version}_${revision} libjpeg-turbo zlib-devel"
 	short_desc+=" - development files"
 	pkg_install() {
 		vmove usr/include
