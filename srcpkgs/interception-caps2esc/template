@@ -1,0 +1,25 @@
+# Template file for 'interception-caps2esc'
+pkgname=interception-caps2esc
+version=v0.1.3
+revision=1
+build_style=cmake
+hostmakedepends="cmake"
+wrksrc="caps2esc-${version}"
+makedepends=""
+depends="interception-tools"
+short_desc="Transforming the most useless key ever in the most useful one"
+maintainer="Orphaned <orphan@voidlinux.org>"
+license="MIT"
+homepage="https://gitlab.com/interception/linux/plugins/caps2esc"
+distfiles="https://gitlab.com/interception/linux/plugins/caps2esc/-/archive/${version}/caps2esc-${version}.tar.gz"
+checksum=1aa8953a1cfa513830f19ec03644aa212ba0c5c6537594b209e1c8b4250f5820
+
+conf_files="/etc/interception/udevmon.d/caps2esc.yaml"
+
+post_install()
+{
+  #vconf ${FILESDIR}/interception/udevmon.d/caps2esc.yaml
+  vinstall ${FILESDIR}/caps2esc.yaml 644 etc/interception/udevmon.d/
+  vlicense LICENSE.md
+}
+
