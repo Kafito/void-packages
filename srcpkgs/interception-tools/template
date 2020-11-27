@@ -1,0 +1,15 @@
+# Template file for 'intercept'
+pkgname=interception-tools
+version=0.2.1
+revision=1
+build_style=cmake
+hostmakedepends="cmake"
+wrksrc="tools-v0.2.1"
+makedepends="eudev-libudev-devel libevdev-devel yaml-cpp-devel"
+depends="eudev-libudev libevdev yaml-cpp"
+short_desc="A minimal composable infrastructure on top of libudev and libevdev"
+maintainer="Orphaned <orphan@voidlinux.org>"
+license="GPL-3.0-or-later"
+homepage="https://gitlab.com/interception/linux/tools"
+distfiles="https://gitlab.com/interception/linux/tools/-/archive/v${version}/tools-v${version}.tar.gz"
+checksum=c231ad8cd1db9da174578709348674092fc5076174214921702dd8e8f2173a71
